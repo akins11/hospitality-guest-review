@@ -52,6 +52,7 @@ def clean_review(df: DataFrame, review_variable: str="comments") -> DataFrame:
     return f_df
 
 
+
 def grouped_freq(df: DataFrame, use: str, top_n: int, group_col: str="host_id") -> DataFrame:
     """
     parameter
@@ -91,6 +92,7 @@ def grouped_freq(df: DataFrame, use: str, top_n: int, group_col: str="host_id") 
     out_df = out_df.reset_index(drop=True)
     
     return out_df[["host_id", "word", "frequency"]]
+
 
 
 def grouped_freq2(df: DataFrame, use: str, top_n: int, group_col: str="host_id") -> DataFrame:
@@ -133,6 +135,7 @@ def grouped_freq2(df: DataFrame, use: str, top_n: int, group_col: str="host_id")
     out_df = out_df.reset_index(drop=True)
 
     return out_df[["host_id", "bi_gram", "frequency"]]
+
 
 
 def most_frequent_words(df: DataFrame, 
@@ -193,6 +196,7 @@ def most_frequent_words(df: DataFrame,
     return output
 
 
+
 def get_wordnet_pos(pos_tag):
     """
     parameter
@@ -214,6 +218,7 @@ def get_wordnet_pos(pos_tag):
     else:
         return wordnet.NOUN
         
+
 
 def clean_text(text: str, not_useful: list) -> Series:
     """
@@ -260,6 +265,7 @@ def clean_text(text: str, not_useful: list) -> Series:
     return(text)
 
 
+
 def create_polarity_score(df: DataFrame, review_variable: str="comments") -> DataFrame:
     """
     parameter
@@ -288,6 +294,7 @@ def create_polarity_score(df: DataFrame, review_variable: str="comments") -> Dat
     return f_df
 
 
+
 def add_character_count(df: DataFrame) -> DataFrame:
     """
     parameter
@@ -301,6 +308,7 @@ def add_character_count(df: DataFrame) -> DataFrame:
     f_df["number_words"] = f_df["comments"].apply(lambda x: len(x.split(" ")))
 
     return f_df
+
 
 
 def wrangle(df: DataFrame, not_useful: list) -> DataFrame:
@@ -326,6 +334,7 @@ def wrangle(df: DataFrame, not_useful: list) -> DataFrame:
     f_df = add_character_count(df=f_df)
 
     return f_df
+
 
 
 def polarity_count(df: DataFrame, sentiment_variable: str="sentiment") -> DataFrame:
@@ -378,6 +387,7 @@ def check_words(words: list, check_words: list) -> str:
 
     return output
     
+
 
 def freq_polarity_plot(df_frq: DataFrame, seti_frq: DataFrame, title: str, subplot_titles: tuple):
     """
