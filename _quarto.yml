@@ -3,6 +3,15 @@ project:
   output-dir: docs
 
 website: 
+  navbar:
+    background: "#480CA8"
+    search: false
+    left:
+      - text: "Host Space Analysis"
+        file: index.qmd
+      - text: "Guest Review"
+        file: review.qmd
+  page-navigation: true
   page-footer:
     background: dark
     left: "Ayomide Akinwande. September, 2022"
@@ -10,13 +19,15 @@ website:
       - icon: journal-code
         href: https://github/notebook.com
       - icon: github
-        href: https://github.com
+        href: https://github.com/akins11
       - icon: twitter
-        href: https://twitter.com
+        href: https://twitter.com/Akinwande_ay24?s=09
 
 format: 
   html:
     theme: materia
+    page-layout: full
+    css: styles.css
     
 execute:
   echo: false
