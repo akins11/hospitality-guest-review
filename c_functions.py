@@ -17,7 +17,222 @@ from matplotlib.pyplot import imshow, axis, figure, tick_params, tight_layout, y
 from seaborn import barplot
 from plotly.subplots import make_subplots
 from plotly.graph_objects import Bar, Pie, Scatter
-from plotly.express import colors, bar
+from plotly.express import colors, bar, histogram, scatter
+
+c_plt_config = {
+    "displaylogo": False,
+    "modeBarButtonsToRemove": ["pan2d", "lasso2d", "zoomIn2d", "zoomOut2d", "zoom2d", "toImage", "select2d", "autoScale2d"]
+    }
+
+agg_label = {"min": "Minimum", "mean": "Average", "median": "Median", "max": "Maximum", "sum": "Total"}
+
+def clean_num(str_num: str) -> float:
+    """
+    parameter
+    ---------
+    str_num: The string to clean.
+
+    """
+    if str_num is not nan:
+        for string in ["$", ","]:
+            str_num =  str.replace(str_num, string, "")
+
+        return float(str_num)
+    else:
+        return str_num
+
+
+def unique_group_count(df, gp_var: str, unique_var: str) -> DataFrame:
+    """
+    parameter
+    ---------
+    df: pandas DataFrame.
+    gp_var:
+    unique_var:
+
+    return
+    ------
+    """
+    f_df = (
+        df.groupby(gp_var)[unique_var]
+        .nunique()
+        .sort_values(ascending=False)
+        .reset_index()
+        .rename(columns={unique_var: "count"})
+    )
+    f_df["proportion"] = round((f_df["count"] / df["host_id"].nunique()) * 100, 2)
+
+    return f_df 
+
+
+def num_description(df: DataFrame, var: str):
+    """
+    parameter
+    ---------
+    df: 
+    var:
+
+    return
+    ------
+    """
+    f_df = (
+        df[var]
+        .describe()
+        .reset_index()
+        .rename(columns={"index": "stats"})
+        .query("stats != 'count'")
+    )
+    f_df[var] = f_df[var].round(2)
+
+    return f_df
+
+
+def num_distribution(df: DataFrame, var: str, nbin: int | None=None, format_dollar: bool=True):
+    c_lab = str.title(str.replace(var, "_", " "))
+
+    tt = f"{c_lab} Distribution"
+    xt = "Booking Price" if var == "price" else c_lab
+
+    fig = histogram(
+        data_frame=df,
+        x=var,
+        nbins=nbin,
+        marginal="box",
+        labels={"count": "Count", var: xt},
+        title=tt,
+        template="plotly_white",
+        width=1000, height=450
+    )
+
+    fig.update_traces(marker_color="#E000FF", hovertemplate=f"{c_lab}: <b>%{{x}}</b><br>count: <b>%{{y:,}}</b><extra></extra>")
+
+    fig.update_layout(
+        hoverlabel={
+        "bgcolor": "#D100D1",
+        "font_size": 15,
+        "font_color": "#FFFFFF"
+    })
+
+    fig.update_yaxes(tickformat="~s")
+    if format_dollar:
+        fig.update_xaxes(tickformat="~s", tickprefix="$")
+    else:
+        fig.update_xaxes(tickformat="~s")
+
+    return fig.show(config=c_plt_config)
+
+
+
+def get_price_group_summary(df, gp_var: str, num_var: str, add_agg_fun: list[str]=None, rm_agg_fun: list[str]=None) -> DataFrame:
+    """
+    parameter
+    ---------
+    df:
+    gp_var:
+    num_var:
+    add_agg_fun:
+    rm_agg_fun:
+
+    return
+    ------
+    """
+    agg_fun = ["min", "mean", "median", "max"]
+
+    if add_agg_fun is not None:
+        agg_fun.append(add_agg_fun)
+
+    if rm_agg_fun is not None:
+        agg_fun = [fun for fun in agg_fun if fun not in rm_agg_fun]
+
+    agg_fun = list(set(agg_fun))
+
+    return (
+        df
+        .groupby(gp_var)[num_var]
+        .agg(agg_fun)
+        .reset_index()
+        .sort_values(by="mean", ascending=False)
+    )
+
+
+def price_loc_summary(df: DataFrame, var: str, count_threshold: int=5, output_typ: str="med"):
+    """
+    parameter
+    ---------
+
+    df:
+    var:
+    count_threshold:
+    output_typ:
+
+    return
+    ------
+    """
+    # med, count
+    cf_df = (
+        df[["host_id", "host_location"]]
+        .drop_duplicates()["host_location"]
+        .value_counts()
+        .reset_index()
+        .rename(columns={"index": "host_location", "host_location": "count"})
+    )
+
+    if output_typ == "count":
+        cf_df["proportion"] = round((cf_df["count"] / cf_df["count"].sum()) * 100, 2)
+
+        return cf_df
+
+    else:
+        valid_loc = cf_df.loc[cf_df["count"] >= count_threshold]["host_location"].values
+
+        cf_df = df.loc[df["host_location"].isin(valid_loc)]
+
+        cf_df = cf_df.groupby("host_location")[var].median().reset_index()
+
+        # cf_df["proportion"] = round((cf_df[var] / cf_df[var].sum()) * 100, 2)
+
+        return cf_df.sort_values(by=var, ascending=False)
+
+
+def price_loc_plt(df: DataFrame, x_var: str, y_var: str="host_location", add_title=""):
+    """
+    parameter
+    ---------
+    df:
+    x_var:
+    y_var:
+    add_title:
+
+    return
+    ------
+
+    """
+    fig = bar(
+        data_frame=df.sort_values(by=x_var, ascending=True),
+        x=x_var,
+        y=y_var,
+        hover_name="host_location",
+        hover_data={"host_location": False, x_var: True},
+        title=f"Top 10 Locations By {add_title}",
+        template="plotly_white",
+        width=1000, height=450
+    )
+
+    fig.update_xaxes(title_text=None, tickformat="~s", tickprefix="$")
+    fig.update_yaxes(title_text=None)
+
+    fig.update_traces(
+        hovertemplate=f"<b>%{{hovertext}}</b><br><br>{str.title(str.replace(x_var, '_', ' '))}: <b>%{{x}}</b><extra></extra>",
+        marker_color="#7209B7"
+    )
+    fig.update_layout(hoverlabel={
+        "bgcolor": "#FFFFFF",
+        "font_size": 15,
+        "font_color": "#480CA8"
+    })
+  
+    return  fig.show(config=c_plt_config)
+
 
 
 
@@ -27,7 +242,7 @@ def clean_review(df: DataFrame, review_variable: str="comments") -> DataFrame:
     parameter
     ---------
     df: pandas DataFrame.
-    review_variable: a variable from the data df which serve as the customer review column.
+    review_variable: a variable from the data `df` which serve as the customer review column.
 
     return
     ------
@@ -50,6 +265,227 @@ def clean_review(df: DataFrame, review_variable: str="comments") -> DataFrame:
     f_df = f_df.reset_index(drop=True)
 
     return f_df
+
+
+
+
+def plt_loc_price_summary(df: DataFrame, agg_var: str, gp_var: str, price_name: str, n_obs: int=10):
+    dir_bl = False if agg_var == "min" else True
+
+    f_df = df.head(n_obs).sort_values(by=agg_var, ascending=dir_bl)
+
+    fig = bar(
+        data_frame=f_df,
+        x=agg_var,
+        y=gp_var,
+        hover_name="host_location",
+        hover_data={"host_location": False, agg_var: True},
+        title=f"{agg_label[agg_var]} {price_name} By Top {n_obs} Host Loaction",
+        template="plotly_white",
+        width=1000, height=450
+    )   
+
+    fig.update_xaxes(title_text=None, tickformat="~s", tickprefix="$")
+    fig.update_yaxes(title_text=None)
+
+    fig.update_traces(
+        hovertemplate="<b>%{hovertext}</b><br><br>Median: <b>%{x}</b><extra></extra>",
+        marker_color="#A100F2"
+        )
+
+    fig.update_layout(hoverlabel={
+        "bgcolor": "#FFFFFF",
+        "font_size": 15,
+        "font_color": "#480CA8"
+    })
+
+    return fig.show(config=c_plt_config)
+
+
+def num_point_plt(df, var):
+    """
+    parameter
+    ---------
+    df:
+    var:
+
+    return
+    ------
+
+    """
+    p_lab = str.title(str.replace(var, "_", " "))
+
+    fig = scatter(
+        data_frame=df,
+        x="host_since_days",
+        y=var,
+        labels={"host_since_days": "Number of Days After Listing Property", var: p_lab},
+        title=f"Days vs Median {str.title(str.replace(var, '_', ' '))}",
+        template="plotly_white",
+        width=1000, height=450
+    )
+    
+    fig.update_xaxes(tickformat="~s")
+    fig.update_yaxes(tickformat="~s", tickprefix="$")
+
+    fig.update_traces(
+        hovertemplate=f"Period (In Days): <b>%{{x:,}}</b><br>{p_lab}: <b>%{{y:,}}</b><extra></extra>",
+        marker_color="#A100F2"
+    )   
+
+    fig.update_layout(hoverlabel={
+        "bgcolor": "#FFFFFF",
+        "font_size": 16,
+        "font_color": "#A100F2"
+    })  
+
+    return fig.show(config=c_plt_config)
+
+
+def gp_stay_count(df: DataFrame, sumry_var: str, gp_var: str="host_id") -> DataFrame:
+    """
+    parameter
+    ---------
+    df:
+    sumry_var:
+    gp_var:
+
+    return
+    ------
+    """
+    f_df = df.groupby(gp_var)[sumry_var].mean().reset_index()
+
+    f_df[sumry_var] = f_df[sumry_var].astype("int64")
+
+    f_df = (
+        f_df[sumry_var]
+        .value_counts()
+        .reset_index()
+        .rename(columns={"index": sumry_var, sumry_var: "count"})
+    )
+
+    f_df[sumry_var] = f_df[sumry_var].astype("object")
+
+    f_df["proportion"] = round((f_df["count"] / f_df["count"].sum()) * 100)
+
+    return f_df
+
+
+
+def stay_count_plt(df: DataFrame, var: str, data_label=False):
+    """
+    parameter
+    ---------
+    df:
+    var:
+    data_label:
+
+    return
+    ------
+
+    """
+    tt = "Provided Accommodation" if var == "accommodates" else "Minimum Nights"
+
+    fig = bar(
+        data_frame=df, #.sort_values(by="count", ascending=True),
+        x=var,
+        y="count",
+        title=f"Average Number of {tt}",
+         hover_data={var: True, "count": True, "proportion": True},
+        template="plotly_white",
+        width=1000, height=450
+    )
+
+    fig.update_xaxes(title_text="Number of Guests")
+    fig.update_yaxes(title_text="Count", tickformat="~s")
+
+    if data_label:
+        fig.data[0].text = df["count"] 
+        fig.data[0].textposition = "outside"
+        fig.data[0].textfont = {"color": "#858585"}
+
+    fig.update_traces(
+        hovertemplate=f"<b>{str.title(str.replace(var, '_', ' '))}: %{{x}}</b><br><br>count: <b>%{{y}}</b><br>proportion: <b>%{{customdata[0]}}</b><extra></extra>",
+        marker_color="#A100F2"
+    )
+
+    fig.update_layout(
+        hoverlabel={
+            "bgcolor": "#FFFFFF",
+            "font_size": 15,
+            "font_color": "#480CA8"
+        },
+        xaxis={"tickmode": "linear", "type": "category"}
+    )
+    
+    return  fig.show(config=c_plt_config)
+
+
+def price_stays_plt(df: DataFrame, var: str, p_var: str="price"):
+    if var == "accommodates":
+        a_tt = "Number of Guests Accommodated" 
+        a_xt = "Persons"
+        a_tl = "Accommodates"
+    else:
+        a_tt = "Minimum Number of Nights"
+        a_xt = "Minimum nights"
+        a_tl = "Minimum Night(s)"
+
+    fig = bar(
+        data_frame=df,
+        x=var,
+        y=p_var,
+        title=f"Average Price vs {a_tt}",
+        template="plotly_white",
+        width=1000, height=450
+    )
+
+    fig.update_xaxes(title_text=f"Number of {a_xt}")
+    fig.update_yaxes(title_text="Price", tickformat="~s", tickprefix="$")
+
+    fig.update_traces(
+        hovertemplate=f"{a_tl}: <b>%{{x}}</b><br>price: <b>%{{y}}</b><extra></extra>",
+        marker_color="#A100F2"
+    )
+
+    fig.update_layout(
+        hoverlabel={
+            "bgcolor": "#FFFFFF",
+            "font_size": 17,
+            "font_color": "#480CA8"
+        }, 
+        xaxis={"tickmode": "linear", "type": "category"}
+    )
+
+    fig.show(config=c_plt_config)
+
+
+def get_price_group_summary(df, gp_var: str, num_var: str, add_agg_fun: list[str]=None, rm_agg_fun: list[str]=None) -> DataFrame:
+    """
+    df:
+    gp_var:
+    num_var:
+    add_agg_fun:
+    rm_agg_fun:
+
+    """
+    agg_fun = ["min", "mean", "median", "max"]
+
+    if add_agg_fun is not None:
+        agg_fun.append(add_agg_fun)
+
+    if rm_agg_fun is not None:
+        agg_fun = [fun for fun in agg_fun if fun not in rm_agg_fun]
+
+    agg_fun = list(set(agg_fun))
+
+    return (
+        df
+        .groupby(gp_var)[num_var]
+        .agg(agg_fun)
+        .reset_index()
+        .sort_values(by="mean", ascending=False)
+    )
 
 
 
@@ -85,13 +521,13 @@ def grouped_freq(df: DataFrame, use: str, top_n: int, group_col: str="host_id") 
 
     for key, value in g_frequency.items():
         frequency_df = value
-        frequency_df["host_id"] = key
+        frequency_df[group_col] = key
 
         out_df = concat([out_df, frequency_df])
 
     out_df = out_df.reset_index(drop=True)
     
-    return out_df[["host_id", "word", "frequency"]]
+    return out_df[[group_col, "word", "frequency"]]
 
 
 
@@ -111,7 +547,11 @@ def grouped_freq2(df: DataFrame, use: str, top_n: int, group_col: str="host_id")
     g_frequency = {}
 
     for group in list(df[group_col].unique()):
-        text = " ".join(df.query(f"{group_col} == {group}")["comments"]).lower()
+        if group_col == "host_id":
+            text = " ".join(df.query(f"{group_col} == {group}")["comments"]).lower()
+        else:
+            text = " ".join(df.query(f"{group_col} == '{group}'")["comments"]).lower()
+
         tokens = list(bigrams(word_tokenize(text)))
 
         if use == "counter":
@@ -128,14 +568,13 @@ def grouped_freq2(df: DataFrame, use: str, top_n: int, group_col: str="host_id")
 
     for key, value in g_frequency.items():
         frequency_df = value
-        frequency_df["host_id"] = key
+        frequency_df[group_col] = key
 
         out_df = concat([out_df, frequency_df])
         
     out_df = out_df.reset_index(drop=True)
 
-    return out_df[["host_id", "bi_gram", "frequency"]]
-
+    return out_df[[group_col, "bi_gram", "frequency"]]
 
 
 def most_frequent_words(df: DataFrame, 
@@ -386,7 +825,89 @@ def check_words(words: list, check_words: list) -> str:
     output = ", ".join(output) if len(output) > 1 else "".join(output)
 
     return output
+
+
+def convert_to_list(df, var, rm_punt: list=["{", "}", '"']):
+    """
+    parameter
+    ---------
+    df:
+    var:
+    rm_punt:
+
+    return
+    ------
+
+    """
+    def rmv_punt(x, punt_list: list=rm_punt):
+        for punt in punt_list:
+            x = str.replace(x, punt, "")
+        
+        return str.split(x, ",")
+
+    df[var] = df[var].apply(lambda x: rmv_punt(x))
+
+    return df
+
     
+
+def amenities_summary(df: DataFrame, amenities: list, am_name):
+    """
+    parameter
+    ---------
+    df:
+    amenities:
+
+    return
+    ------
+
+    """
+    f_df = df[["host_id", "amenities"]]
+
+    f_df = f_df.drop_duplicates()
+
+    nrows = f_df.shape[0]
+
+    f_df = convert_to_list(f_df, "amenities")
+
+    f_df = add_present_words(f_df, amenities, search_variable="amenities", keep_edited_search_cols=False)
+
+    f_df = f_df[amenities].agg("sum").reset_index().rename(columns={"index": am_name, 0: "count"})
+
+    f_df["proportion"] = round((f_df["count"] / nrows)*100, 2)
+
+    return f_df.sort_values(by="count", ascending=False)
+
+
+def plt_amenities_summary(df, am_name):
+    am_lab = str.title(str.replace(am_name, "_", " "))
+
+    fig = bar(
+        data_frame=df,
+        x=am_name,
+        y="count",
+        hover_name=am_name,
+        hover_data={am_name: False, "count": True, "proportion": True},
+        title=f"Number Of Hosts Provisions Based On {am_lab}",
+        template="plotly_white",
+        width=1000, height=450
+    )
+
+    fig.update_xaxes(title_text=None)
+    fig.update_yaxes(title_text=None, tickformat="~s")
+
+    fig.update_traces(
+        hovertemplate="<b>%{hovertext}</b><br><br>count: <b>%{y}</b><br>proportion: <b>%{customdata[0]}%</b><extra></extra>",
+        marker_color="#A100F2"
+    )
+
+    fig.update_layout(hoverlabel={
+        "bgcolor": "#FFFFFF",
+        "font_size": 16,
+        "font_color": "#000000"
+    })
+
+    return fig.show(config=c_plt_config)
 
 
 def freq_polarity_plot(df_frq: DataFrame, seti_frq: DataFrame, title: str, subplot_titles: tuple):
@@ -409,6 +930,7 @@ def freq_polarity_plot(df_frq: DataFrame, seti_frq: DataFrame, title: str, subpl
         specs=[[{"type": "bar"}, {"type": "domain"}]], 
         subplot_titles=subplot_titles
     )
+
     f_fig.add_trace(
         Bar(
             x=df_frq["frequency"], 
@@ -416,35 +938,72 @@ def freq_polarity_plot(df_frq: DataFrame, seti_frq: DataFrame, title: str, subpl
             orientation="h", 
             marker=dict(color="blue"), 
             marker_color=colors.sequential.Plotly3_r,
-            hovertemplate= "Word : %{y}<br>Frequency : %{x}<extra></extra>"
+            hovertemplate= "<b>%{y}</b><br><br>Frequency : <b>%{x}</b><extra></extra>"
         ),
         row=1, col=1
     )
+
     f_fig.add_trace(
         Pie(
             labels=seti_frq["sentiment"], 
             values=seti_frq["count"], 
             hole=0.6, 
-            hovertemplate="Sentiment : %{label}<br>Count : %{value}<extra></extra>",
+            hovertemplate="<b>%{label}</b><br><br>Count : <b>%{value}</b><extra></extra>",
             showlegend=False,
             textposition="outside",
             textinfo="label+percent",
-            marker=dict(colors=["#9A32CD", "#EE30A7", "#E066FF"])
+            marker=dict(colors=["#9A32CD", "#EE30A7", "#FF7F50"])
         ),
         row=1, col=2
     )
+    
     f_fig.update_layout(
         height=500, 
         width=960, 
-        showlegend=False, 
         title=title,
+        showlegend=False, 
         template="plotly_white",
         # annotations=[dict(text="look", x=0.18, y=0.5, font_size=20, showarrow=False)]
     )
 
-    return  f_fig.show(config = {"displaylogo": False,
-                                 "modeBarButtonsToRemove": ["pan2d", "lasso2d", "zoomIn2d", "zoomOut2d", "zoom2d", "toImage", "select2d", "autoScale2d"]
-    })
+    f_fig.update_traces(marker={"line": {"color": "#FFFFFF", "width": 1}})
+
+    return  f_fig.show(config=c_plt_config)
+
+
+def plt_featured_grams(df: DataFrame, search_grams: list, title: str):
+
+    feat_words = add_present_words(df, search_grams, "bi_gram")       
+    feat_words = feat_words[search_grams]
+    feat_words = feat_words.sum().to_frame().reset_index().rename(columns={"index": "word", 0: "count"})
+    feat_words["percentage"] = round(feat_words["count"] / df.shape[0]*100, 2)
+
+    fig = bar(                                                        
+        data_frame=feat_words.sort_values(by="count", ascending=False),
+        x="count",
+        y="word",
+        color="word",
+        hover_name="word",
+        color_discrete_sequence=colors.sequential.Plotly3,
+        hover_data={"word": False, "count": True, "percentage": True},
+        title=f"Number Of Reviews Containing Selected Words {title}",
+        template="plotly_white",
+        width=1000, height=450
+    )
+
+    fig.update_xaxes(title_text=None, tickformat="~s")
+    fig.update_yaxes(title_text=None)
+
+    fig.update_traces(
+        hovertemplate="<b>%{hovertext}</b><br><br>Count: <b>%{x}</b><br>Percentage: <b>%{customdata[0]}%</b><extra></extra>"
+    )
+
+    fig.update_layout(
+        hoverlabel={"font_size": 15},
+        showlegend=False
+    )
+
+    fig.show(config = c_plt_config)
 
 
 
@@ -507,28 +1066,28 @@ def plot_present_words(present_word_df: DataFrame, search_words: list, add_title
     f_df = present_word_df[search_words]
 
     fs_df = f_df.sum().to_frame().reset_index().rename(columns={"index": "word", 0: "count"})
+    
     fs_df["percentage"] = round(fs_df["count"] / f_df.shape[0]*100, 2)
 
     color = colors.sequential.Plotly3 if color is None else color
+
     f_fig = bar(
             data_frame=fs_df, 
             x="word" if len(search_words) <= 5 else "count", 
             y="count" if len(search_words) <= 5 else "word", 
             color= "word",
             color_discrete_sequence = color,
-            labels={"word": "Review Words", "count": "Number Of Reviews"},
-            title=f"Number Of Reviews That Include Selected {add_title} Words",
+            labels={"word": "", "count": "Number Of Reviews"},
+            title=f"Number Of Reviews Which Contain Selected {add_title} Words",
             template="plotly_white",
             custom_data=["percentage"],
             # hover_data = {"word": False, "count": ":.2f", "percentage": True},
             width=800
         )
         
-    f_fig.update_traces(hovertemplate="Count : %{value:,.0f}<br>Percentage : %{customdata:.2f}%<extra></extra>", showlegend=False)
+    f_fig.update_traces(hovertemplate="Count : <b>%{value:,.0f}</b><br><br>Percentage : <b>%{customdata:.2f}%</b><extra></extra>", showlegend=False)
 
-    return  f_fig.show(config = {"displaylogo": False,
-                                 "modeBarButtonsToRemove": ["pan2d", "lasso2d", "zoomIn2d", "zoomOut2d", "zoom2d", "toImage", "select2d", "autoScale2d"]
-    })
+    return  f_fig.show(config = c_plt_config)
 
 
 
@@ -663,9 +1222,12 @@ def get_host_wb_freq(df: DataFrame, host_info: DataFrame=None, filter_words: str
     if `get` is 'host_freq' pandas DataFrame else number of host.
     """
     word_col = "bi_gram" if "bi_gram" in df.columns else "word"
+
     if get == "host_freq":
         df_freq = df.query(f"{word_col} == '{filter_words}'").sort_values(by="frequency", ascending=False)
+
         df_freq = df_freq.join(host_info.set_index("host_id"), on="host_id", how="left").drop_duplicates()
+
         return df_freq[["host_id", "frequency", "host_name"]]
         
     elif get == "host_count":
@@ -684,6 +1246,7 @@ def host_freq_plot(df: DataFrame, host_info: DataFrame, filter_words: str=None):
     -------
     plotly graph object.
     """
+    
     f_df = get_host_wb_freq(df, host_info=host_info, filter_words=filter_words, get="host_freq").head(10).sort_values(by="frequency")
 
     f_fig = Scatter(
@@ -692,8 +1255,36 @@ def host_freq_plot(df: DataFrame, host_info: DataFrame, filter_words: str=None):
             mode="markers",
             marker_color=colors.sequential.Plotly3_r,
             marker=dict(size=f_df["frequency"], color=f_df["frequency"]),
-            hovertemplate = "Host : %{y}<br>Count : %{x}<extra></extra>",
+            hovertemplate = "<b>%{y}</b><br><br>Count: <b>%{x}</b><extra></extra>",
             textfont=dict(color="white")
         )
 
+    return f_fig
+
+
+
+def loc_freq_plot(df, filter_bigram):
+    """
+    parameter
+    ---------
+    df: DataFrame with frequent bigram words for a host.
+    filter_bigram: Two Specific words to filter by.
+
+    return
+    ------
+    plotly graph object.
+    """
+
+    f_df = df.query(f"bi_gram == '{filter_bigram}'").sort_values(by="frequency", ascending=True).head(10)
+
+    f_fig = Scatter(
+            x=f_df["frequency"],
+            y=f_df["host_location"],
+            mode="markers",
+            marker_color=colors.sequential.Plotly3_r,
+            marker=dict(size=f_df["frequency"]*6, color=f_df["frequency"]),
+            hovertemplate = "<b>%{y}</b><br><br>Count: <b>%{x}</b><extra></extra>",
+            textfont=dict(color="white", size=20)
+        )
+        
     return f_fig
