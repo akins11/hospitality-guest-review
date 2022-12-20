@@ -1,287 +1,672 @@
 ---
-title: Hospitality Service Guest Review
+title: Host Space Exploratory Analysis.
 jupyter: python3
 ---
 
-In recent time, travelers now have a better sources to research and read reviews of other people's evaluation of various accomodations before making a chioce on the kind of vacation that best suit them, Which mean that property rental owners now have their work cut out for them to provide the best services that provides great satisfaction to their guest. This analysis will explore [airbnb](https://en.m.wikipedia.org/wiki/Airbnb) guest review on their host. Even through these are subjective opinions of the guest experience, regardless 
-of if they are positive or nagetive, it is important for the host to use such infomation in improving their service which in turn improves guest experience at their property.
-
-
-
-## Exploration
-Gaining insight into the overall experience of guest based on certain aspect of such as the property features, overall/specific satisfaction, communication with the host and the service from start to finish. Exploring each review using frequent words, bigrams and also sentiment scores. The analysis will be conducted using python and various libraries such as pandas for data manipulation, nltk for text cleaning and analysis, plotly and wordcloud for visualisation.
-**Note** that reviews are sent after guest checks out of a rental property.
-
 ```{python}
 import pandas as pd
-
+import numpy as np
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import plotly.io as pio
+import plotnine as gg
+
 pio.renderers.default = "plotly_mimetype+notebook_connected"
 
 import c_functions as fn
 ```
- 
+
 ```{python}
-#| message: false
+c_plt_config = {
+    "displaylogo": False,
+    "modeBarButtonsToRemove": ["pan2d", "lasso2d", "zoomIn2d", "zoomOut2d", "zoom2d", "toImage", "select2d", "autoScale2d"]
+    }
+```
+
+```{python}
+#| warning: false
+rv_df = pd.read_csv("C:/Users/AYOMIDE/vs-python/hospitality-guest-review/Airbnb-boston_only.csv")
+
+needed_columns = [
+    "date", "host_id", "host_name", "summary", "space", "description", "neighborhood_overview", "notes", "transit", "host_since",
+    "host_location", "host_response_time", "host_response_rate", "host_acceptance_rate", "host_neighbourhood", "neighbourhood_cleansed",
+    "city", "property_type", "accommodates", "bathrooms", "room_type", "bedrooms", "beds", "bed_type", "price", "weekly_price", "monthly_price", 
+    "security_deposit", "cleaning_fee", "extra_people", "minimum_nights", "maximum_nights", "number_of_reviews", "first_review", "last_review",
+    "instant_bookable", "amenities"
+    ]
+rv_df = rv_df[needed_columns]
+```
+
+
+Since Airbnb lunched their platform, many property owners have had the opportunity to rent out space in their property to travelers seeking lodging in exchange for a price. Of recent many people around the world have joined the trend in listing properties they own on the platform and earning sustainable income. Another benefit of the platform is how it has made it easy to get started in the hospitality industry at a low cost and without worrying about the various logistics that comes with running a full lodging company, it also benefit guests in such a way unlike normal hotels, if made available by the host, they get to enjoy more home like amenities and experience.
+Providing such service can be challenging and will require alot of planning and preparation to meet certain standard and to also make sure the reservation is a direct reflection of what was advertised. Here i will explore the strategies of hosts and how they are able to meet some of the important basic requirements such as property cleanliness, provision of essential home amenities, good communication and the overall comfortability of their guests. 
+It is important to note that the data focus on reservations in Boston, USA. it will be interesting to examine the role of the host location and how it impact guest interest and decision. Also we will be looking at the various price structure, property types, host listing periods and other important insights.
+
+```{python}
+rv_df = rv_df.drop_duplicates()
+
+# -------------------|
+price_stru = ["price", 'weekly_price', 'monthly_price', 'security_deposit', 'cleaning_fee', "extra_people"]
+
+for price_col in price_stru:
+    rv_df[price_col] = rv_df[price_col].apply(lambda x: fn.clean_num(x))
+
+# -------------------|
+rename_dict = {
+    "boston": "Boston", "Boston ": "Boston",
+    "Brighton     ": "Brighton", "Brighton 02135": "Brighton", "Brighton ": "Brighton",
+    "ALLSTON": "Allston",
+    "Boston (Jamaica Plain)": "Jamaica Plain, Boston", "Jamaica Plain (Boston)": "Jamaica Plain, Boston", 
+    "Jamaica Plain, MA": "Jamaica Plain, Boston", "Jamaica Plain": "Jamaica Plain, Boston",
+    "ROXBURY CROSSING": "Roxbury Crossing"
+}
+
+rv_df["city"] = rv_df["city"].replace(rename_dict)
+
+
+rv_df["host_location"] = np.nan
+
+rv_df.loc[rv_df["city"] == "Boston", "host_location"] =  rv_df.query("city == 'Boston'")["host_neighbourhood"] + ", " + rv_df.query("city == 'Boston'")["city"]
+
+rv_df.loc[rv_df["city"] != "Boston", "host_location"] = rv_df.query("city != 'Boston'")["city"]
+
+rv_df.loc[(rv_df["host_neighbourhood"].isna()) & (rv_df["city"] == "Boston"), "host_location"] = "Unspecified, Boston"
+
+
+# ----------------------|
+rv_df["instant_bookable"] = rv_df["instant_bookable"].replace({"f": "False", "t": "True"})
+
+
+# ----------------------|
+for dt in ["date", "host_since"]:
+    rv_df[dt] = pd.to_datetime(rv_df[dt])
+
+rv_df["host_since_days"] = (rv_df["date"] - rv_df["host_since"]).dt.days
+
+rv_df["host_since_days"] = rv_df["host_since_days"].astype("int64", errors = "ignore")
+
+rv_df.loc[rv_df["host_since_days"] < 0, "host_since_days"] = 0 # it is not possible to be a host before the current date.
+```
+
+
+#### Number of hosts:
+Out of `43,123` unique guest reviews, there are `1,403` unique hosts within the current data period.
+
+<br>
+
+##### Count based on host location.
+```{python}
+t_df = fn.unique_group_count(rv_df, "host_location", "host_id")
+
+fig = px.bar(
+    data_frame=t_df.head(10).sort_values(ascending=True, by="count"),
+    x="count",
+    y="host_location",
+    title="Top 10 Locations With The Highest Number of Host",
+    hover_name="host_location",
+    hover_data={"host_location": False, "count": True, "proportion": True},
+    template="plotly_white",
+    width=1000, height=450
+)
+
+fig.update_xaxes(title_text=None)
+fig.update_yaxes(title_text=None)
+
+fig.update_traces(
+    hovertemplate="<b>%{hovertext}</b><br><br>Count: <b>%{x}</b><br>Proportion: <b>%{customdata[0]}%</b><extra></extra>",
+    marker_color="#A100F2"
+    )
+fig.update_layout(hoverlabel={
+    "bgcolor": "#FFFFFF",
+    "font_size": 15,
+    "font_color": "#480CA8"
+})
+
+fig.show(config=c_plt_config)
+
+```
+
+The top 10 locations are residence to 69.4% of all host, while `Jamaica Plain` have the most number of host e.i 11%, other top locations have an almost equal share.
+
+<br>
+
+#### Reservation price distribution
+
+::: {.panel-tabset}
+
+## Per Night
+```{python}
+fn.num_distribution(rv_df, "price", nbin=150)
+```
+Looking at the price per night, it appears that about 75% of reservation price falls between $185 and below. In addition the average booking price using the unfiltered data is $145.5
+
+## Per Week
+```{python}
+fn.num_distribution(rv_df, "weekly_price", 240)
+```
+Just like the per night price distribution, majority charge lower prices for their service than high charges given that about 75% of host charge $1,140 or below for a whole week. while there is a minimum amount of $200 there is also a massive difference when we look at the maximum price of $4,200. Additionally from the weekly distribution plot there are about 1,181 hosts that charge between $900 to $919 which is the most used weekly charges.
+
+## Per Month
+```{python}
+fn.num_distribution(rv_df, "monthly_price")
+```
+Using the unfilterd data, there is a big difference between the minimum ($650) and maximum ($15,000) monthly price by hosts. Also from the plot, 75% charge $3,990 and below.
+
+:::
+
+<br>
+
+#### Lodging price by location.
+
+::: {.panel-tabset}
+
+## Price per night
+```{python}
+t_df = fn.get_price_group_summary(rv_df, "host_location", "price")
+
+fn.plt_loc_price_summary(t_df, "median", "host_location", price_name="price")
+```
+
+## Weekly Price
+```{python}
+t_df = fn.get_price_group_summary(rv_df, "host_location", "weekly_price")
+
+fn.plt_loc_price_summary(t_df, "median", "host_location", price_name="price(Weekly)")
+```
+
+## Monthly Price
+```{python}
+t_df = fn.get_price_group_summary(rv_df, "host_location", "monthly_price")
+
+fn.plt_loc_price_summary(t_df, "median", "host_location", price_name="price(Monthly)")
+```
+
+:::
+
+Before looking at the median value of various locations, it is important to note that there are locations with very few hosts which influence the median price to have a higher value than locations with more hosts where the price are more distributed.
+
+<br>
+
+#### Property listing period:
+Given the number of period a host have been listed on airbnb, are longer period associated with higher price, lower price or are the prices just random. If we are to use years of hosting experience as a factor that affect cost of creating such service.
+
+<br>
+
+##### Number of period beign a host.
+
+```{python}
 #| warning: false
 
-r_df = pd.read_csv("Airbnb-boston_only.csv")
+t_df = rv_df[["host_id", "date", "host_since", "host_since_days"]]
 
-host_names = list(r_df["host_name"].unique())
-not_useful = ["boston", "'s", "apartment", "n't", "stay"] + host_names
-```
-The raw review text will be cleaned and transformed by:  
-- Converting all text to lower case.  
-- Removing all automated bots texts.  
-- Removing all punctuations and empty text.  
-- Removing all numbers, stopwords and words that do not impact the analysis.  
-- lemmatize words i.e words like recommended will be transformed to recommend.  
-  
-```{python}
-f_rv = fn.clean_review(df=r_df)
-fs_rv = fn.wrangle(df=f_rv, not_useful=not_useful)
+# get the last date by host
+t_df["max_date"] = t_df.groupby("host_id")["date"].transform("max")
+
+t_df = t_df.sort_values(by="date", ascending=False).drop_duplicates(["host_id", "max_date"])
+
+
+fn.num_distribution(t_df, "host_since_days", format_dollar=False)
 ```
 
+The number of periods after listing a property can also be seen as the number of periods on service experience and infomation about running a successful hosting service with minimum costs can be gained, so looking at the distribution summary for the number of days after listing, majority e.i 75% have been listed for more than 2 years or close to 3 years. furthermore, the general average period for all host is less than 2 years if the outliers of longer periods are put into consideration. so we can say that a majority of host are very much are working towards their second year.
 
-### Ovarall Guest Reviews
-```{python}
-a_rv = fs_rv[["comments", "neg", "neu", "pos", "compound", "sentiment", "number_char", "number_words"]]
-```
-
-```{python}
-#| column: body-outset
-
-sentiment_frequency = fn.polarity_count(a_rv)
-
-plt_frq = fn.most_frequent_words(df=a_rv, gram=1, use="counter", top_n=10)
-plt_frq = plt_frq.sort_values(by="frequency")
-
-fn.freq_polarity_plot(
-    plt_frq, 
-    sentiment_frequency, 
-    "All Guest Review", 
-    ("Top 10 Most Used Words", "Sentiment Score Count")
-    )
-```
-
-The Top 10 most frequent words of all guest review contains words such as clean, great, nice, comfortable etc which reveals how much positive words are beign used by guest.
 <br>
-The overall sentiment summary shows that majority of the review contains neutral comments which can reinstate that most guests did not express any particular feelings or emotions. Also 45.1% of guest had positive experience of their host and accomodation, while just a little fraction i.e 0.45% gave negative reviews.
 
-#### WordCloud of Review Words
+##### Periods & price structure
+
 ```{python}
-fn.create_word_cloud(df=a_rv)
-```
-From the wordcloud, there is high amount of words relating to recommendations, lodgings location, accomodation tidyness, convenience and so on.
+#| warning: false
 
+t_df = rv_df[["host_id", "date", "host_since_days"] + price_stru]
 
-#### Selected Positive & Negative Guest Review Words
-```{python}
-#| column: body-outset
+t_df["max_date"] = t_df.groupby("host_id")["date"].transform("max")
 
-s_words = ["clean", "recommend", "convenient", "accommodate", "hospitable", "bad", "dirty", "poor", "disgusting"]
+# Get the average summary of price, weekly_price, .... by host
+for p_col in price_stru:
+    t_df[p_col] = t_df.groupby("host_id")[p_col].transform("median")
 
-pres_word = fn.add_present_words(a_rv, s_words)
+t_df = t_df.sort_values("date", ascending=False).drop_duplicates(["host_id", "max_date"])
 
-color_map = str.rstrip("#0000FF "*5).split(" ") + str.rstrip("#C71585 "*4).split(" ")
-
-fn.plot_present_words(present_word_df=pres_word, search_words=s_words, color=color_map)
-```
-Using a selected number of positive and negative words shows that a greater percentage of guest consider their accomodation to be clean, convinient and recommendable rather than dirty, poor or bad.
-
-#### Guest Review using on Bigrams
-```{python}
-# Location
-location = ["great location", "clean location", "awesome place", "excellent neighborhood", "fantastic location", "convenient location"]
-
-# host
-host = ["great host", "friendly host", "good host", "nice host", "great communication"]
-
-# stay
-stay = ["comfortable", "generous", "wonderful", "accommodate", "great time", "hospitable", "convenient"]
-
-# Recommend
-recommend = ["highly recommend", "strong recommend", "recommend place", "would recommend"]
-
-# Room
-room = ["clean room", "nice room", "comfortable place", "lovely place"]
 ```
 
+
+::: {.panel-tabset}
+## price
 ```{python}
-#| column: page
+fn.num_point_plt(t_df, "price")
+```
 
-a_rv = fn.create_bigram(df=a_rv)
+## Weekly Average Price
+```{python}
+fn.num_point_plt(t_df, "weekly_price")
+```
 
-fig = make_subplots(
-    rows=2, 
-    cols=2, 
-    specs=[[{"type": "bar"}, {"type": "bar"}], [{"type": "bar"}, {"type": "bar"}]], 
-    vertical_spacing = 0.15,
-    subplot_titles=("Lodgging Location", "Host Attitude", "Guest Recommendation", "Room Review")
+## Monthly Average Price
+```{python}
+fn.num_point_plt(t_df, "monthly_price")
+```
+:::
+
+```{python}
+e_cor = t_df[["host_since_days", "price", "weekly_price", "monthly_price"]].corr()
+e_cor = e_cor[["host_since_days"]]
+e_cor["host_since_days"] = e_cor["host_since_days"].round(3)
+e_cor
+```
+
+There is not an obvious relationship between the number of days after listing a property and the price structure of the booking the property, investigating further might suggest reason such as competition driving price, guest affordability, state/industry price benchmark and so on.
+
+<br>
+
+#### Extra guest and extra charges:
+The added cost and provisions involved in having extra guests for a reservation.
+
+<br>
+
+##### Number of accommodated guest
+```{python}
+t_df = fn.gp_stay_count(rv_df, "accommodates")
+
+fn.stay_count_plt(t_df, "accommodates")
+```
+
+When we look at the number of guests that can be comfortable accommodated without forgoing the quality of their experience, the aggregated average indicate that about 48% of hosts can comfortably host just two guest while 90% of hosts are willing to accommodate from 1 to 4 guests.
+
+<br>
+
+###### Minimum number of nights reservation.
+```{python}
+t_df = fn.gp_stay_count(rv_df, "minimum_nights")
+
+fn.stay_count_plt(t_df, "minimum_nights")
+```
+
+For the minimum number of nights guest choose to spend, 49% of guests opt for a minimum of 1 night while 91% made a decision to spend from 1 night to 3 nights.
+
+<br>
+
+##### more guests more reservation cost?
+
+```{python}
+#| warning: false
+
+t_df = rv_df[["host_id", "accommodates", "minimum_nights", "price"]]
+
+t_df["price"] = t_df.groupby("host_id")["price"].transform("median")
+t_df["price"] = t_df["price"].round(2)
+
+for col in ["accommodates", "minimum_nights"]:
+    t_df[col] = t_df.groupby("host_id")[col].transform("mean")
+    t_df[col] = t_df[col].astype("int64")
+
+t_df = t_df.drop_duplicates()
+```
+
+<br>
+
+::: {.panel-tabset}
+
+## Accommodation
+```{python}
+fn.price_stays_plt(t_df.groupby("accommodates")["price"].mean().reset_index(), "accommodates")
+```
+
+There is a steady increase in the average price charged for reservation as the number of accommodated persons increases with some exception such as host accommodating as much as 9 guests.
+
+
+## Mimimum nights
+```{python}
+t_df = t_df[["minimum_nights", "price"]].groupby("minimum_nights")["price"].agg("mean").reset_index()
+
+fn.price_stays_plt(t_df, "minimum_nights")
+```
+
+::: 
+
+<br>
+
+#### Property type, host location and price summary:
+
+<br>
+
+##### Expensive locations.
+Given that there are locations with very small number of host e.i less than 4 hosts, for this analysis only locations with a minimum of 5 host will be included.
+
+<br>
+
+::: {.panel-tabset}
+
+## Price
+```{python}
+t_df = fn.price_loc_summary(rv_df, "price").head(10).sort_values(by="price")
+fn.price_loc_plt(t_df, "price", add_title="Median Price")
+```
+
+Looking at the top 10 highest median reservation cost, `Downtown Crossing in Boston`, `Cambridge, Boston`, `West End, Boston` top the chart and given that all three locations have less number of host compare to other locations, one of the reasons for such high price can be lack of competitions from other "airbnb" service providers.
+
+## Weekly Price
+```{python}
+t_df = fn.price_loc_summary(rv_df, "weekly_price").head(10).sort_values(by="weekly_price")
+fn.price_loc_plt(t_df, "weekly_price", add_title="Median Price (Weekly)")
+```
+ 
+ The highest weekly median reservation charge was from `cambridge, Boston`, it cost roughly 1,733 more for a weekly reservation than other locations.
+
+
+## Monthly Price
+```{python}
+t_df = fn.price_loc_summary(rv_df, "monthly_price").head(10).sort_values(by="monthly_price")
+fn.price_loc_plt(t_df, "monthly_price", add_title="Median Price (Monthly)")
+```
+
+Just like per night prices of reservation, median monthly cost of booking an accommodation is much higher in `Downtown Crossing, Boston` where the median is 9,500 and `Cambridge, Boston` costing 7,200.
+
+## Security Deposit
+```{python}
+t_df = fn.price_loc_summary(rv_df, "security_deposit").head(10).sort_values(by="security_deposit")
+
+fn.price_loc_plt(t_df, "security_deposit", add_title="Median Security Deposit")
+```
+
+Extra deposit for security measures cost more in `West Roxbury, Boston`, `Chinatown, Boston` & `Charlestown, Boston` $200 more than other locations.
+
+## Cleaning Fee
+```{python}
+t_df = fn.price_loc_summary(rv_df, "cleaning_fee").head(10).sort_values(by="cleaning_fee")
+
+fn.price_loc_plt(t_df, "cleaning_fee", add_title="Median Cleaning Fee")
+```
+
+The median charges for cleaning services is higher in `Cambridge, Boston` as it cost $19 more than other locations.
+
+
+:::
+
+Overall reservation cost are more expensive in locations such as `Downtown Crossing`, `cambridge` and `Chinatown`  while extra charges on security and sanitation cost more in  `cambridge`. furthermore it is also important to note that the number of hosts present in the above listed locations are quite few compared to other locations.
+
+<br>
+
+#### Property type and reservation cost:
+The type of property is one of the major features guests look out for when making a decision as it impact certain amount of comfortability and also the cost of making a reservation. We will look at the most common property and also the cost associated with it.
+
+<br>
+
+##### Property type count
+```{python}
+t_df = (
+rv_df[["host_id", "property_type"]]
+.drop_duplicates()["property_type"]
+.value_counts()
+.reset_index()
+.rename(columns={"index": "property_type", "property_type": "count"})
 )
-fig.add_trace(
-    fn.plot_featured_grams(a_rv, location, "h"),
-    row=1, col=1
+t_df["proportion"] = round((t_df["count"] / t_df["count"].sum())*100, 2)
+t_df.columns = [str.title(str.replace(cols, "_", " ")) for cols in t_df.columns]
+t_df
+```
+
+The must common property listed by host is `Apartment` which make up 78.9% of all types property. while the least used property are Castle and villa.
+
+<br>
+
+##### Property price summary
+```{python}
+#| warning: false
+#| message: false
+
+t_df = rv_df.groupby("property_type")[["price", "weekly_price", "monthly_price"]].median().reset_index()
+t_df = pd.melt(t_df, id_vars="property_type", value_vars=["price", "weekly_price", "monthly_price"])
+t_df["variable"] = t_df["variable"].apply(lambda x: str.title(str.replace(x, "_", " ")))
+
+(
+    gg.ggplot(t_df, gg.aes(x="property_type", y="value")) +
+    gg.geom_col(fill="#7209B7") +
+    gg.coord_flip() +
+    gg.facet_wrap(facets="variable", scales="free_x", ncol=3) +
+    gg.labs(x=None, y=None) +
+    gg.scale_y_continuous(labels=lambda l: ["${:,.0f}".format(v) for v in l]) +
+    gg.ggtitle("Median Price By Property Type") +
+    gg.theme_minimal() +
+    gg.theme(
+        figure_size=(10, 5), 
+        subplots_adjust={'wspace': 0.10},
+        plot_title = gg.element_text(ha = "left")
+        ) 
 )
-fig.add_trace(
-    fn.plot_featured_grams(a_rv, host, "h"),
-    row=1, col=2
-)
-fig.add_trace(
-    fn.plot_featured_grams(a_rv, recommend, "h"),
-    row=2, col=1
-)
-fig.add_trace(
-    fn.plot_featured_grams(a_rv, room, "h"),
-    row=2, col=2
-)
-fig.update_layout(
-    height=600, 
-    width=1000, 
-    showlegend=False, 
-    title = "Number Of Reviews Which Include Selected Words", 
-    template="plotly_white"
-)
-
-fig.show(config = {"displaylogo": False,
-                   "modeBarButtonsToRemove": ["pan2d", "lasso2d", "zoomIn2d", "zoomOut2d", "zoom2d", "toImage", "select2d", "autoScale2d"]
-                }
-        )
 ```
 
-Looking at the positive bigrams of guests review, The above plot conveys the number of times each pair of words is used to describe the property location, guest intention to recommend the host service property to other people, the host personality traits and the accommodation overall tidyness.
+Both `Loft` and `Boat` have the highest median cost for price per night and weekly price, Importantly `Townhouse` cost more on a monthly bases than other types of property.
 
+<br>
 
+#### Property features:
 
-### Review By Host
-There are 1,403 unique host in the data, this is a rather huge number so only a few selected host will be explored.
+<br>
+
+##### Room type
 ```{python}
-h_rv = fs_rv[["host_id", "comments", "property_type", "neg", "neu", "pos", "compound", "sentiment", "number_char", "number_words"]]
-
-not_useful = ["boston", "'s", "apartment", "n't", "stay", "room", "host", "house", "would", "get"] + host_names
-
-hg_rv = fn.wrangle(df=f_rv, not_useful=not_useful)
-gp_freq = fn.most_frequent_words(df=hg_rv, top_n=10, group=True, group_col="host_id")
-```
-
-
-```{python}
-# get the host with the highest frequency of words 
-high_freq = gp_freq.groupby("host_id")["frequency"].max().sort_values(ascending=False).index
-
-selected_host = list(high_freq[:4])
-```
-
-Focusing on hosts with the highest number of frequently used words by guests, (summary). Also the neutral sentiment takes center stage when we talk about the most distinct type of sentiment expressed by guests.
-
-```{python}
-#| column: body-outset
-
-f_h_freq = gp_freq.query(f"host_id == {selected_host[0]}").sort_values(by="frequency")
-f_senti_dis = fn.polarity_count(hg_rv.query(f"host_id == {selected_host[0]}")) 
-
-fn.freq_polarity_plot(f_h_freq, f_senti_dis, f"Host {selected_host[0]} Review.", ("Word Frequency", "Sentiment Count"))
-```
-
-```{python}
-#| column: body-outset
-
-f_h_freq = gp_freq.query(f"host_id == {selected_host[1]}").sort_values(by="frequency")
-f_senti_dis = fn.polarity_count(hg_rv.query(f"host_id == {selected_host[1]}")) 
-
-fn.freq_polarity_plot(f_h_freq, f_senti_dis, f"Host {selected_host[1]} Review.", ("Word Frequency", "Sentiment Count"))
-```
-
-```{python}
-#| column: body-outset
-
-f_h_freq = gp_freq.query(f"host_id == {selected_host[2]}").sort_values(by="frequency")
-f_senti_dis = fn.polarity_count(h_rv.query(f"host_id == {selected_host[2]}")) 
-
-fn.freq_polarity_plot(f_h_freq, f_senti_dis, f"Host {selected_host[2]} Review.", ("Word Frequency", "Sentiment Count"))
-```
-
-
-
-
-#### Number of Sentiment score by Host
-```{python}
-#| column: body-outset
-
-average_sent = (
-    h_rv
-    .groupby("host_id")["sentiment"]
+t_df = (
+    rv_df[["host_id", "room_type"]]
+    .drop_duplicates()["room_type"]
     .value_counts()
-    .to_frame()
-    .rename(columns={"sentiment": "count"})
     .reset_index()
-    .groupby("sentiment")["count"]
-    .agg(["min", "mean", "median", "max"])
-    .reset_index()
-    .rename(columns = {"sentiment": "Sentiment",
-                       "min": "Minimum",
-                       "mean": "Average",
-                       "median": "Median",
-                       "max": "Maximum"})
+    .rename(columns={"index": "room_type", "room_type": "count"})
 )
-average_sent["Average"] = average_sent["Average"].round(3)
-average_sent
+
+fig = px.pie(
+    data_frame=t_df,
+    values="count",
+    names="room_type",
+    hover_name="room_type",
+    hover_data={"room_type": False},
+    title = "Number Of Hosts With Each Room Type",
+    color_discrete_sequence=["#9410AB", "#F72585", "#480CA8"], #9410AB
+    hole=0.50,
+    width=1000, height=450
+)
+
+fig.update_traces(
+    hovertemplate="<b>%{hovertext}</b><br><br>count: <b>%{value}</b><extra></extra>"
+    )
+fig.update_layout(hoverlabel={
+    "bgcolor": "#FFFFFF",
+    "font_size": 18,
+    "font_color": "#000000"
+})
+
+fig.update_traces(marker={"line": {"color": "#FFFFFF", "width": 2}})
+
+fig.show(config=c_plt_config)
 ```
 
-The highest number of closely related negative reviews by a host is 10, while for positive reviews is 505. Also the average number of neutral review for all host is 16.1 while 1.57 is the average number of negative review by host.
+About 2.42% of hosts offered a `shared room`, while majority (i.e 56.8%) put out the `entire apartment`.
 
-#### Top Host by selected Review Bigrams
+<br>
+
+##### Number of bathroom, beds and price correlation
 ```{python}
-h_rv = fn.create_bigram(h_rv)
-gp_bi_freq = fn.most_frequent_words(h_rv, gram=2, top_n=10, review_variable="bi_gram", group=True, group_col="host_id")
-host_info = r_df[["host_id", "host_name"]]
-```
+t_df = (
+    rv_df
+    .groupby(["host_id"])[["beds", "bathrooms", "price", "weekly_price", "monthly_price", "extra_people"]]
+    .agg("median")
+    # .agg({"bathrooms": "median", "beds": "median", "price": "median"})
+    .applymap(lambda x: round(x, 2))
+    .reset_index()
+)
+
+t_corr = t_df.corr()[["beds", "bathrooms"]]
+t_corr = t_corr.iloc[3:]
+t_corr.index = ['Price', 'Weekly Price', 'Monthly Price', 'Extra People']
 
 
-```{python}
-#| column: page
+fig = go.Figure()
+fig.add_trace(
+    go.Heatmap(
+        x=t_corr.columns,
+        y=t_corr.index,
+        z=np.array(t_corr),
+        text=t_corr.values,
+        texttemplate="%{text:.2f}",
+        hovertemplate="<b>%{x}</b><br><b>%{y}</b><br><extra></extra>",
+        colorscale=[[0.0, "#480CA8"], [0.2, "#560BAD"], [0.4, "#640AB2"], [0.6, "#7209B7"], [0.8, "#9410AB"], [1.0, "#A514A5"]]
+    )
+)
 
-fig = make_subplots(
-    rows=2, 
-    cols=2, 
-    specs=[[{"type": "scatter"}, {"type": "scatter"}], [{"type": "scatter"}, {"type": "scatter"}]], 
-    vertical_spacing = 0.08,
-    subplot_titles=("Highly Recommend", "Great Location", "Great Host", "Clean Comfortable")
-)
-fig.add_trace(
-    fn.host_freq_plot(gp_bi_freq, host_info, "highly recommend"),
-    row=1, col=1
-)
-fig.add_trace(
-    fn.host_freq_plot(gp_bi_freq, host_info, "great location"),
-    row=1, col=2
-)
-fig.add_trace(
-    fn.host_freq_plot(gp_bi_freq, host_info, "great host"),
-    row=2, col=1
-)
-fig.add_trace(
-    fn.host_freq_plot(gp_bi_freq, host_info, "clean comfortable"),
-    row=2, col=2
-)
 fig.update_layout(
-    height=900, 
-    width=1100, 
-    showlegend=False, 
-    title = "Top 10 Host With The Highest Number of Selectect Bigrams", 
-    template="plotly_white"
+    title="Property Features vs Price Structure",
+    width=1000,height=500,
+    template="plotly_white",
+    showlegend=False
 )
 
-fig.show(config = {"displaylogo": False,
-                    "modeBarButtonsToRemove": ["pan2d", "lasso2d", "zoomIn2d", "zoomOut2d", "zoom2d", "toImage", "select2d", "autoScale2d"]
-    })
+fig.update_layout(hoverlabel={
+    "bgcolor": "#FFFFFF",
+    "font_size": 15,
+    "font_color": "#000000"
+})
+
+fig.show(config=c_plt_config)
 ```
 
-And finally a simple exploration of host with the highest number of guest reviews on how likely they are to recommend the host service, their experience with the service property and its environs, the host and also the comfort of the accomodation.
+There is a moderate correlation between the median number of beds a property have and the cost of booking such property. This indicate that to some extent, when there are more rooms in a property is more, there are tendencies that there will be a higher cost of booking such property, in addition the number of bathrooms in a property have a low correlation with the price of the apartment.
+
+<br>
+
+#### Instant booking acceptance:
+<br>
+
+##### By location.
+```{python}
+
+t_df = rv_df[["host_id", "instant_bookable", "host_location"]].drop_duplicates()
+
+t_df = (
+    t_df[["host_location", "instant_bookable"]]
+    .value_counts()
+    .reset_index()
+    .rename(columns={0: "count"})
+    .sort_values(by=["instant_bookable", "count"], ascending=False)
+)
+
+h_locs = t_df.head(10)["host_location"]
+
+t_df = t_df.loc[t_df["host_location"].isin(h_locs)]
+
+t_df["proportion"] = np.nan
+
+for loc in list(h_locs):
+    t_df.loc[t_df["host_location"] == loc, "proportion"] = round((t_df.query(f"host_location == '{loc}'")["count"] / t_df.query(f"host_location == '{loc}'")["count"].sum())*100, 2)
+
+```
+
+```{python}
+locations = t_df["host_location"].unique()
+
+data = {"x": [], "y": [], "colors": []}
+
+for loc in locations:
+    data["x"].extend(
+        [
+            t_df.loc[(t_df.host_location == loc) & (t_df.instant_bookable == "True")]["count"].values[0],
+            t_df.loc[(t_df.host_location == loc) & (t_df.instant_bookable == "False")]["count"].values[0],
+            None
+        ]
+    )
+
+    data["y"].extend([loc, loc, None]),
+    data["colors"].extend(["#9410AB", "#F72585", "#000000"])
+```
 
 
-### Conclusion
-Majority of the reviews contains neutral sentiment which show that many guest did not express any specific emotions towards their experience with their host service, while there are more guest that expressed some kind of satisfaction and comfortability than guest that did not. Also majority of the host have very little negative review with an average of approximately 2 reviews beign negative.
+```{python}
+fig = go.Figure(
+    data=[
+        go.Scatter(
+            x=data["x"],
+            y=data["y"],
+            mode="lines",
+            marker={"color": "#D8BFD8"}
+        ),
+        go.Scatter(
+            x=data["x"],
+            y=data["y"],
+            mode="markers+text",
+            marker={"color": data["colors"], "size": 25},
+            hovertemplate="<b>%{y}</b> <br><br> Instant Bookabel: <b>%{x}</b> <br><extra></extra>"
+        )
+    ]
+)
+
+fig.update_layout(hoverlabel={
+    "bgcolor": "#FFFFFF",
+    "font_size": 16,
+    "font_color": "#000000"
+})
+
+fig.update_layout(
+    title = "Avaliable Options For Instant bookings & Host Location<br>By numbers of <span style='color:#9410AB'>hosts that accept</span> & <span style='color:#F72585'>those that do not</span>",
+    width=1000,height=500,
+    template="plotly_white",
+    showlegend=False
+)
+
+fig.show(config=c_plt_config)
+```
+
+Host in `East Boston, Boston` have a higher percentage (27.27%) of bookings that where instantly accepted the same can be said for hosts in `Roxbury, Boston` and `Dorchester, Boston` than other locations.
+
+<br>
+
+#### Essential amenities:
+Some the most popular or important amenities offered by hosts relating to security, communication, social event, etc and how it relationship with price structure.
+
+::: {.panel-tabset}
+
+## Safety measures
+```{python}
+sp = ["Smoke Detector", "First Aid Kit", 'Carbon Monoxide Detector', 'Safety Card', 'Fire Extinguisher']
+
+t_df = fn.amenities_summary(rv_df, sp, "safety_amenities")
+
+fn.plt_amenities_summary(t_df, "safety_amenities")
+```
+
+Pertaining to guest Safety, 81.11% of hosts property contains `Some Detectors` while 45.32% have `Fire Extinguishers` in the event of a fire outbreak, just 33.65% have a `First Aid Kit`.
+
+## Connectivity
+```{python}
+con = ['Internet', 'Wireless Internet', 'Cable TV', 'TV']
+
+t_df = fn.amenities_summary(rv_df, con, "telecommunication")
+
+fn.plt_amenities_summary(t_df, "telecommunication")
+```
+
+Regarding the availability of Comms, 95.03% of hosts property have `Wireless internet`, while 78.02% also included some sort of `internet`.
+In addition 70.91% have a `TV` installed and just 51.86% have a `Cable TV`.
+
+## Comfortablity
+```{python}
+gc = ['Hot Tub', 'Heating', 'Essentials', 'Air Conditioning', 'Kitchen']
+
+t_df = fn.amenities_summary(rv_df, gc, "general_amenities")
+
+fn.plt_amenities_summary(t_df, "general_amenities")
+```
+
+For other important amenities, the analysis reveal that 94.14% of bookings have a `Heating` system, while 77.50% have an `Air Conditioning` system in place. For the `Essentials` 76.35% have them while just 5.39% have a `Hot Tub` in them.
+
+## Socials
+```{python}
+social = ['Family/Kid Friendly', 'Suitable for Events']
+
+t_df = fn.amenities_summary(rv_df, social, "social")
+
+fn.plt_amenities_summary(t_df, "social")
+```
+
+Just 43.38% of all booking are `Family/Kid Friendly` while just 4.55% can be used for Events.
+
+:::
+
