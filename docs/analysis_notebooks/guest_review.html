@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.149">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>guest_review</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html">Host Analysis</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../review.html">Guest Review</a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+<div class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="10">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>comments</th>
+      <th>neg</th>
+      <th>neu</th>
+      <th>pos</th>
+      <th>compound</th>
+      <th>sentiment</th>
+      <th>number_char</th>
+      <th>number_words</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>fantastic place week boston great location mur...</td>
+      <td>0.038</td>
+      <td>0.563</td>
+      <td>0.399</td>
+      <td>0.9769</td>
+      <td>Neutral</td>
+      <td>325</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>great location apartment would definitely</td>
+      <td>0.000</td>
+      <td>0.306</td>
+      <td>0.694</td>
+      <td>0.7783</td>
+      <td>Positive</td>
+      <td>41</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>apartment neat clean accurately show easy work...</td>
+      <td>0.000</td>
+      <td>0.479</td>
+      <td>0.521</td>
+      <td>0.9781</td>
+      <td>Positive</td>
+      <td>250</td>
+      <td>34</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<section id="pv" class="level6">
+<h6 class="anchored" data-anchor-id="pv">pv</h6>
+<p>The Top 10 most frequent words of all guest review contains words such as clean, great, nice, comfortable etc which reveals how much positive words are beign used by guest.</p>
+</section>
+<section id="nw" class="level6">
+<h6 class="anchored" data-anchor-id="nw">nw</h6>
+<p>The top 10 most Frequenct words used by guests for the review of their host overall service contains positive words such as clean, great, nice, also neutral words such as location, room, host, apartment etc. in addtion guests majorly used neutral words than positive words and negative words.</p>
+<div class="cell" data-execution_count="12">
+<div class="cell-output cell-output-display">
+<p><img src="guest_review_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+</section>
+<section id="pv-1" class="level6">
+<h6 class="anchored" data-anchor-id="pv-1">pv</h6>
+<p>Using a selected number of positive and negative words shows that a greater percentage of guest consider their accomodation to be clean, convinient and recommendable rather than dirty, poor or bad.</p>
+</section>
+<section id="nv" class="level6">
+<h6 class="anchored" data-anchor-id="nv">nv</h6>
+<p>Trying to <code>ascertain</code> the number of times the selected positive and negative words were used by guests in their review, as shown by the summary bar chart 33.2% of guest used the <code>clean</code> while just 0.6% of guests used the word <code>dirty</code>, also 8.8% used the word <code>convient</code> while just 0.18% used the word <code>poor</code>.</p>
+<div class="cell" data-execution_count="53">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="55">
+<div class="cell-output cell-output-display" data-execution_count="55">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>word</th>
+      <th>count</th>
+      <th>percentage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>great location</td>
+      <td>3159</td>
+      <td>7.33</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>clean location</td>
+      <td>232</td>
+      <td>0.54</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>awesome place</td>
+      <td>89</td>
+      <td>0.21</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>excellent neighborhood</td>
+      <td>24</td>
+      <td>0.06</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>fantastic location</td>
+      <td>251</td>
+      <td>0.58</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>convenient location</td>
+      <td>469</td>
+      <td>1.09</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="23">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+</section>
+<section id="pv-2" class="level6">
+<h6 class="anchored" data-anchor-id="pv-2">pv</h6>
+<p>Looking at the positive bigrams of guests review, The above plot conveys the number of times each pair of words is used to describe the property location, guest intention to recommend the host service property to other people, the host personality traits and the accommodation overall tidyness.</p>
+</section>
+<section id="nw-1" class="level6">
+<h6 class="anchored" data-anchor-id="nw-1">nw</h6>
+<p>Looking at the positive bigrams of various guests review,</p>
+<div class="cell" data-execution_count="26">
+<div class="cell-output cell-output-display" data-execution_count="26">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>host_id</th>
+      <th>word</th>
+      <th>frequency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1683708</td>
+      <td>boston</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1683708</td>
+      <td>great</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1683708</td>
+      <td>north</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1683708</td>
+      <td>end</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1683708</td>
+      <td>place</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>13799</th>
+      <td>13424353</td>
+      <td>great</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>13800</th>
+      <td>13424353</td>
+      <td>place</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>13801</th>
+      <td>13424353</td>
+      <td>walk</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>13802</th>
+      <td>13424353</td>
+      <td>clean</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>13803</th>
+      <td>13424353</td>
+      <td>around</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+<p>13804 rows × 3 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="28">
+<div class="cell-output cell-output-display" data-execution_count="28">
+<pre><code>[3637081, 324630, 3474193, 119019]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="29">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="30">
+<div class="cell-output cell-output-display" data-execution_count="30">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Sentiment</th>
+      <th>Minimum</th>
+      <th>Average</th>
+      <th>Median</th>
+      <th>Maximum</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Negative</td>
+      <td>1</td>
+      <td>1.571</td>
+      <td>1.0</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Neutral</td>
+      <td>1</td>
+      <td>18.684</td>
+      <td>6.0</td>
+      <td>729</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Positive</td>
+      <td>1</td>
+      <td>15.186</td>
+      <td>6.0</td>
+      <td>487</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p>The highest number of closely related negative reviews by a host is 10, while for positive reviews is 505. Also the average number of neutral review for all host is 16.1 while 1.57 is the average number of negative review by host.</p>
+<p>The highest number of negative review a single host received is 10, while the highest number of positive reviews is 505, additionally the average number of neutral reviews for all host is 16.1 while 1.57 is the average number of negative review by host.</p>
+<div class="cell" data-execution_count="32">
+<div class="cell-output cell-output-display" data-execution_count="32">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>host_id</th>
+      <th>bi_gram</th>
+      <th>frequency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1683708</td>
+      <td>north end</td>
+      <td>12.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1683708</td>
+      <td>would definitely</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1683708</td>
+      <td>highly recommend</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1683708</td>
+      <td>location apartment</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1683708</td>
+      <td>freedom trail</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>13813</th>
+      <td>13424353</td>
+      <td>whole experience</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>13814</th>
+      <td>13424353</td>
+      <td>experience easy</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>13815</th>
+      <td>13424353</td>
+      <td>easy apartment</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>13816</th>
+      <td>13424353</td>
+      <td>apartment spotless</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>13817</th>
+      <td>13424353</td>
+      <td>spotless comfortable</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>13818 rows × 3 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="33">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>a simple exploration of host with the highest number of guest reviews on how likely they are to recommend the host service, their experience with the service property and its environs, the host and also the comfort of the accomodation.</p>
+<p>Focusing on positive bi-gream from guest reviews, based on the top 10 hosts with the highest number of time each group of wards were used to review their services, Host <code>Jose/Jason</code> have a high number of positive guest review relating to <code>Great Location</code> &amp; <code>Highly Recommend</code> which indicate some of its biggest strength of being in a vary good location, <code>soledad &amp; Rodrigo</code> had the second highest count of reviwes with <code>Highly Recommend</code> &amp; <code>Clean Comfortable</code> with 41 and 40 respectively while also comming 5th with <code>Great Host</code>. We also have other repeated hosts such as <code>Will</code>, <code>Robert</code>, <code>Ravi</code>, <code>Dror</code> &amp; <code>Izzy</code></p>
+<div class="cell" data-execution_count="34">
+<div class="cell-output cell-output-display" data-execution_count="34">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>host_id</th>
+      <th>comments</th>
+      <th>host_location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1683708</td>
+      <td>fantastic place week boston great location mur...</td>
+      <td>North End, Boston</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>9189449</td>
+      <td>great place ... super warm home super cold win...</td>
+      <td>Allston-Brighton, Boston</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>38352201</td>
+      <td>day apartment perfect nice note bottle wine ho...</td>
+      <td>Charlestown, Boston</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="36">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>And finally a simple exploration of host with the highest number of guest reviews on how likely they are to recommend the host service, their experience with the service property and its environs, the host and also the comfort of the accomodation.</p>
+<p>The above … shows the number of guest reviews containing the selected words within the top 10 host locations. Jamaica Plain have the highest number of host willing to book again, while Fanway/Kenmore have the highest count of guest who enjoyed the host environment.</p>
+<p>Change the host id to host name in host one word &amp; sentiment chart.</p>
+<p>website navbar: background: primary left: - text: “Host Analysis” file: index.qmd - text: “Guest Review” file: review.qmd page-navigation: true</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Ayomide Akinwande. September, 2022</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github/notebook.com">
+      <i class="bi bi-journal-code" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

@@ -1,0 +1,424 @@
+---
+title: Guest Review Text Analysis
+jupyter: python3
+---
+
+With a vast amount of information on various aspect of the hospitality industry available on the internet, during the research phase, travelers can now utilize insights from various travel review platforms to obtain more guidance before attempting to make a reservation. This reviews contain previous guests/travelers evaluation and experience of their reservation which can impact future consumers and in turn can possibly be an advantage if the reviews are positive or a disadvantage to the hosts and a known fact that majority of travelers use them to build trust.
+The various airbnb guest review will be explored using text analysis to gain insights on the overall performance of hosts, Even through these are subjective opinions of the guest experience, regardless of if they are positive or negative, it is important for the host to use such information in improving their service which in turn improves guest experience at their property.
+
+## Area of concentration.
+This analysis will `concentration` on the overall experience of guest based on certain aspect of such as the property features, overall/specific satisfaction, communication with the host and the service from start to finish. Exploring each review using frequent words, bigrams and also sentiment scores. The analysis will be conducted using python and various libraries such as pandas for data manipulation, nltk for text cleaning and analysis, plotly and wordcloud for visualization.  
+**Note** that reviews are sent after guest checks out of a rental property.
+
+```{python}
+import pandas as pd
+import numpy as np
+import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+import plotly.io as pio
+pio.renderers.default = "plotly_mimetype+notebook_connected"
+
+import c_functions as fn
+```
+ 
+
+```{python}
+#| message: false
+#| warning: false
+
+r_df = pd.read_csv("Airbnb-boston_only.csv")
+
+host_names = list(r_df["host_name"].unique())
+not_useful = ["'s", "n't", "stay"] + host_names #"boston", "apartment",
+```
+The raw review text will be cleaned and transformed by:  
+- Converting all text to lower case.  
+- Removing all automated bot texts.  
+- Removing all punctuation and empty text.  
+- Removing all numbers, stopwords and words that do not impact the analysis.  
+- lemmatize words i.e words like recommended will be transformed to recommend.  
+  
+
+```{python}
+c_plt_config = {
+    "displaylogo": False,
+    "modeBarButtonsToRemove": ["pan2d", "lasso2d", "zoomIn2d", "zoomOut2d", "zoom2d", "toImage", "select2d", "autoScale2d"]
+    }
+```
+
+
+```{python}
+f_rv = fn.clean_review(df=r_df)
+fs_rv = fn.wrangle(df=f_rv, not_useful=not_useful)
+```
+
+```{python}
+rename_dict = {
+    "boston": "Boston", "Boston ": "Boston",
+    "Brighton     ": "Brighton", "Brighton 02135": "Brighton", "Brighton ": "Brighton",
+    "ALLSTON": "Allston",
+    "Boston (Jamaica Plain)": "Jamaica Plain, Boston", "Jamaica Plain (Boston)": "Jamaica Plain, Boston", 
+    "Jamaica Plain, MA": "Jamaica Plain, Boston", "Jamaica Plain": "Jamaica Plain, Boston",
+    "ROXBURY CROSSING": "Roxbury Crossing"
+}
+
+fs_rv["city"] = fs_rv["city"].replace(rename_dict)
+
+
+fs_rv["host_location"] = np.nan
+
+fs_rv.loc[fs_rv["city"] == "Boston", "host_location"] =  fs_rv.query("city == 'Boston'")["host_neighbourhood"] + ", " + fs_rv.query("city == 'Boston'")["city"]
+
+fs_rv.loc[fs_rv["city"] != "Boston", "host_location"] = fs_rv.query("city != 'Boston'")["city"]
+
+fs_rv.loc[(fs_rv["host_neighbourhood"].isna()) & (fs_rv["city"] == "Boston"), "host_location"] = "Unspecified, Boston"
+```
+
+
+### Ovarall guest reviews
+```{python}
+a_rv = fs_rv[["comments", "neg", "neu", "pos", "compound", "sentiment", "number_char", "number_words"]]
+```
+
+
+
+```{python}
+
+sentiment_frequency = fn.polarity_count(a_rv)
+
+plt_frq = fn.most_frequent_words(df=a_rv, gram=1, use="counter", top_n=10)
+plt_frq = plt_frq.sort_values(by="frequency")
+
+fn.freq_polarity_plot(
+    plt_frq, 
+    sentiment_frequency, 
+    "All Guest Review", 
+    ("Top 10 Most Used Words", "Sentiment Score Count")
+    )
+```
+
+The top 10 most frequent words used by guests contains positive words such as clean, great, nice, also neutral words such as location, room, host, apartment etc. In addition the overall sentiment summary reveals that majority of the review contains neutral comments which suggest that most guests did not express any particular feelings or emotions. Also 45.1% of guest had positive experience of their host and accommodation, while just a little fraction i.e 0.45% had negative reviews.
+
+<br>
+
+#### Common words cloud
+```{python}
+fn.create_word_cloud(df=a_rv)
+```
+A wordcloud of recurring words from the overall guest review hint at the high amount of words relating to recommendations, lodgings location, accommodation tidiness, convenience and so on.
+
+<br>
+
+#### Selected positive & negative guest review words
+```{python}
+s_words = ["clean", "recommend", "convenient", "accommodate", "hospitable", "bad", "dirty", "poor", "disgusting"]
+
+pres_word = fn.add_present_words(a_rv, s_words)
+
+color_map = str.rstrip("#0000FF "*5).split(" ") + str.rstrip("#C71585 "*4).split(" ")
+
+fn.plot_present_words(present_word_df=pres_word, search_words=s_words, color=color_map)
+```
+Trying to ascertain the number of times the selected positive and negative words were used by guests, as displayed by the summary bar chart 33.2% of guest used the word `clean` while just 0.6% of guests used the word `dirty`, also 8.8% used the word `convenient` while just 0.18% used the word `poor`.
+
+<br>
+
+#### Bigrams of guest reviews.
+```{python}
+# Location
+location = ["great location", "clean location", "awesome place", "excellent neighborhood", "fantastic location", "convenient location"]
+
+# host
+host = ["great host", "friendly host", "good host", "nice host", "great communication"]
+
+# stay
+stay = ["comfortable", "generous", "wonderful", "accommodate", "great time", "hospitable", "convenient"]
+
+# Recommend
+recommend = ["highly recommend", "strong recommend", "recommend place", "would recommend"]
+
+# Room
+room = ["clean room", "nice room", "comfortable place", "lovely place"]
+```
+
+```{python}
+a_rv = fn.create_bigram(df=a_rv)
+# a_rv = fn.create_bigram(df=a_rv)
+
+# fig = make_subplots(
+#     rows=2, 
+#     cols=2, 
+#     specs=[[{"type": "bar"}, {"type": "bar"}], [{"type": "bar"}, {"type": "bar"}]], 
+#     vertical_spacing = 0.15,
+#     subplot_titles=("Lodgging Location", "Host Attitude", "Guest Recommendation", "Room Review")
+# )
+# fig.add_trace(
+#     fn.plot_featured_grams(a_rv, location, "h"),
+#     row=1, col=1
+# )
+# fig.add_trace(2
+#     fn.plot_featured_grams(a_rv, host, "h"),
+#     row=1, col=2
+# )
+# fig.add_trace(
+#     fn.plot_featured_grams(a_rv, recommend, "h"),
+#     row=2, col=1
+# )
+# fig.add_trace(
+#     fn.plot_featured_grams(a_rv, room, "h"),
+#     row=2, col=2
+# )
+# fig.update_layout(
+#     height=600, 
+#     width=1000, 
+#     showlegend=False, 
+#     title = "Number Of Reviews Which Include Selected Words", 
+#     template="plotly_white"
+# )
+
+# fig.show(config = {"displaylogo": False,
+#                    "modeBarButtonsToRemove": ["pan2d", "lasso2d", "zoomIn2d", "zoomOut2d", "zoom2d", "toImage", "select2d", "autoScale2d"]
+#                 }
+#         )
+```
+
+
+::: {.panel-tabset}
+
+## Lodgging location
+```{python}
+fn.plt_featured_grams(a_rv, location, "Relating to The Host Location")
+```
+
+## Host attitude
+```{python}
+fn.plt_featured_grams(a_rv, host, "Relating to The Host Personality")
+```
+
+## Host recommendation
+```{python}
+fn.plt_featured_grams(a_rv, recommend, "Based On Guest Willingness To Recommed")
+```
+
+## Room review
+```{python}
+fn.plt_featured_grams(a_rv, room, "Relating to The Host Property Review")
+```
+
+:::
+
+Looking at the positive bigrams of various guests review, The above plot conveys the number of times each pair of words was used to describe the location of the host property, guest intention to recommend their host to other people, the host personality traits and the accommodation overall tidiness.
+
+<br>
+
+### Review by host
+There are 1,403 unique host in the data, this is a rather huge number so only a few selected host will be explored.
+```{python}
+h_rv = fs_rv[["host_id", "comments", "property_type", "host_location", 
+              "neg", "neu", "pos", "compound", "sentiment", "number_char", "number_words"]]
+
+not_useful = ["'s", "apartment", "n't", "stay", "room", "host", "house", "would", "get"] + host_names  #"boston", 
+
+hg_rv = fn.wrangle(df=f_rv, not_useful=not_useful)
+
+gp_freq = fn.most_frequent_words(df=hg_rv, top_n=10, group=True, group_col="host_id")
+```
+
+
+```{python}
+# get the host with the highest frequency of words 
+high_freq = gp_freq.groupby("host_id")["frequency"].max().sort_values(ascending=False).index
+
+selected_host = list(high_freq[:5])
+```
+
+Focusing on hosts with the highest number of frequently used words by guests, (summary). Also the neutral sentiment takes center stage when we talk about the most distinct type of sentiment expressed by guests.
+
+<br>
+
+::: {.panel-tabset}
+
+## Host 1
+```{python}
+
+host_0 = selected_host[0]
+
+f_h_freq = gp_freq.query(f"host_id == {host_0}").sort_values(by="frequency")
+f_senti_dis = fn.polarity_count(hg_rv.query(f"host_id == {host_0}")) 
+
+fn.freq_polarity_plot(f_h_freq, f_senti_dis, f"Host {host_0} Review.", ("Word Frequency", "Sentiment Count"))
+```
+
+## Host 2
+```{python}
+
+host_1 = selected_host[1]
+
+f_h_freq = gp_freq.query(f"host_id == {host_1}").sort_values(by="frequency")
+f_senti_dis = fn.polarity_count(hg_rv.query(f"host_id == {host_1}")) 
+
+fn.freq_polarity_plot(f_h_freq, f_senti_dis, f"Host {host_1} Review.", ("Word Frequency", "Sentiment Count"))
+```
+
+## Host 3
+```{python}
+
+host_2 = selected_host[2]
+
+f_h_freq = gp_freq.query(f"host_id == {host_2}").sort_values(by="frequency")
+f_senti_dis = fn.polarity_count(h_rv.query(f"host_id == {host_2}")) 
+
+fn.freq_polarity_plot(f_h_freq, f_senti_dis, f"Host {host_2} Review.", ("Word Frequency", "Sentiment Count"))
+```
+
+## Host 4
+```{python}
+
+host_3 = selected_host[3]
+
+f_h_freq = gp_freq.query(f"host_id == {host_3}").sort_values(by="frequency")
+f_senti_dis = fn.polarity_count(h_rv.query(f"host_id == {host_3}")) 
+
+fn.freq_polarity_plot(f_h_freq, f_senti_dis, f"Host {host_3} Review.", ("Word Frequency", "Sentiment Count"))
+```
+
+:::
+
+<br>
+
+#### Number of sentiment score by host
+```{python}
+
+average_sent = (
+    h_rv
+    .groupby("host_id")["sentiment"]
+    .value_counts()
+    .to_frame()
+    .rename(columns={"sentiment": "count"})
+    .reset_index()
+    .groupby("sentiment")["count"]
+    .agg(["min", "mean", "median", "max"])
+    .reset_index()
+    .rename(columns = {"sentiment": "Sentiment",
+                       "min": "Minimum",
+                       "mean": "Average",
+                       "median": "Median",
+                       "max": "Maximum"})
+)
+average_sent["Average"] = average_sent["Average"].round(3)
+average_sent
+```
+
+The highest number of negative review a single host received is 10, while the highest number of positive reviews is 505, additionally the average number of neutral reviews for all host is 16.1 while 1.57 is the average number of negative review by host.
+
+<br>
+
+#### Top host by selected review bigrams
+```{python}
+h_rv = fn.create_bigram(h_rv)
+gp_bi_freq = fn.most_frequent_words(h_rv, gram=2, top_n=10, review_variable="bi_gram", group=True, group_col="host_id")
+host_info = r_df[["host_id", "host_name"]]
+```
+
+
+```{python}
+
+fig = make_subplots(
+    rows=2, 
+    cols=2, 
+    specs=[[{"type": "scatter"}, {"type": "scatter"}], [{"type": "scatter"}, {"type": "scatter"}]], 
+    vertical_spacing = 0.08,
+    horizontal_spacing= 0.2,
+    subplot_titles=("Highly Recommend", "Great Location", "Great Host", "Clean Comfortable")
+)
+fig.add_trace(
+    fn.host_freq_plot(gp_bi_freq, host_info, "highly recommend"),
+    row=1, col=1
+)
+fig.add_trace(
+    fn.host_freq_plot(gp_bi_freq, host_info, "great location"),
+    row=1, col=2
+)
+fig.add_trace(
+    fn.host_freq_plot(gp_bi_freq, host_info, "great host"),
+    row=2, col=1
+)
+fig.add_trace(
+    fn.host_freq_plot(gp_bi_freq, host_info, "clean comfortable"),
+    row=2, col=2
+)
+fig.update_layout(
+    height=900, 
+    width=980, 
+    showlegend=False, 
+    title = "Top 10 Host With The Highest Number of Selectect Bigrams", 
+    template="plotly_white"
+    # yaxis={"tickfont": {"size": 10}},
+)
+
+fig.show(config=c_plt_config)
+```
+
+Focusing on positive bi-gram from guests review, looking at the top 10 hosts with the highest number of time each group of words were used for evaluation, Host `Jose/Jason` have a high number of positive guest review relating to `Great Location` & `Highly Recommend` which indicate that some of their biggest strength of being in a vary good location, `soledad & Rodrigo` had the second highest count of reviews with `Highly Recommend` & `Clean Comfortable` with 41 and 40 respectively while also coming 5th with `Great Host`. We also have other repeated hosts such as `Will`, `Robert`, `Ravi`, `Dror` &  `Izzy` from the selected category.
+
+<br>
+
+#### By Host Location
+```{python}
+hl_df = h_rv[["host_id", 'comments',  "host_location"]].drop_duplicates("host_id")
+
+hl_rv = (
+        hl_df[["host_id", "host_location"]]
+        .drop_duplicates()["host_location"]
+        .value_counts()
+        .reset_index()
+        .rename(columns={"index": "host_location", "host_location": "count"})
+    )
+
+valid_loc = hl_rv.loc[hl_rv["count"] >= 5]["host_location"].values
+
+hl_rv = hl_df.loc[hl_df["host_location"].isin(valid_loc)]
+
+loc_bigram = fn.most_frequent_words(hl_rv, 2, group=True, top_n=20, review_variable="bi_gram", group_col="host_location")
+```
+
+```{python}
+fig = make_subplots(
+    rows=2, 
+    cols=2, 
+    specs=[[{"type": "scatter"}, {"type": "scatter"}], [{"type": "scatter"}, {"type": "scatter"}]], 
+    vertical_spacing = 0.08,
+    horizontal_spacing= 0.2,
+    subplot_titles=("Highly Recommend", "Great Location", "Great Host", "Come Back")
+)
+fig.add_trace(
+    fn.loc_freq_plot(loc_bigram, "highly recommend"),
+    row=1, col=1
+)
+fig.add_trace(
+    fn.loc_freq_plot(loc_bigram, "great location"),
+    row=1, col=2
+)
+fig.add_trace(
+    fn.loc_freq_plot(loc_bigram,  "great host"),
+    row=2, col=1
+)
+fig.add_trace(
+    fn.loc_freq_plot(loc_bigram, "come back"),
+    row=2, col=2
+)
+fig.update_layout(
+    height=900, 
+    width=980, 
+    showlegend=False, 
+    title = "Top 10 Host Locations With The Highest Number of Selected Bigrams", 
+    template="plotly_white"
+)
+
+fig.show(config=c_plt_config)
+```
+The above bi-gram count summary reveal the number of guest reviews containing the selected words within the top 10 host locations. `Jamaica Plain` have the highest number of guests willing to book again, while `Fanway/Kenmore` have the highest count of guest who enjoyed the host environment.
+
+### Conclusion
+Majority of the reviews contains neutral sentiment which indicate that many guest did not express any specific emotions towards their experience with their host service, In addition there are more guest that expressed some kind of satisfaction and comfortability than guest that did not. Also majority of the host have very little negative review with an average of approximately 2 negative reviews.

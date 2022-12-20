@@ -1,0 +1,3360 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.149">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>host</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html">Host Space Analysis</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../review.html">Guest Review</a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content column-page" id="quarto-document-content">
+
+
+
+<div class="cell" data-execution_count="4">
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\AYOMIDE\AppData\Local\Temp\ipykernel_6348\4068378735.py:1: DtypeWarning: Columns (44) have mixed types. Specify dtype option on import or set low_memory=False.</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>date</th>
+      <th>host_id</th>
+      <th>host_name</th>
+      <th>summary</th>
+      <th>space</th>
+      <th>description</th>
+      <th>neighborhood_overview</th>
+      <th>notes</th>
+      <th>transit</th>
+      <th>host_since</th>
+      <th>...</th>
+      <th>security_deposit</th>
+      <th>cleaning_fee</th>
+      <th>extra_people</th>
+      <th>minimum_nights</th>
+      <th>maximum_nights</th>
+      <th>number_of_reviews</th>
+      <th>first_review</th>
+      <th>last_review</th>
+      <th>instant_bookable</th>
+      <th>amenities</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2014-09-13</td>
+      <td>1683708</td>
+      <td>Carlos And Cheryl</td>
+      <td>NaN</td>
+      <td>An excellent alternative to pricey hotels, our...</td>
+      <td>An excellent alternative to pricey hotels, our...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2012-02-01</td>
+      <td>...</td>
+      <td>$200.00</td>
+      <td>NaN</td>
+      <td>$0.00</td>
+      <td>5</td>
+      <td>1125</td>
+      <td>6</td>
+      <td>2014-09-13</td>
+      <td>2015-09-07</td>
+      <td>f</td>
+      <td>{"Cable TV",Internet,"Wireless Internet","Air ...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2015-04-16</td>
+      <td>1683708</td>
+      <td>Carlos And Cheryl</td>
+      <td>NaN</td>
+      <td>An excellent alternative to pricey hotels, our...</td>
+      <td>An excellent alternative to pricey hotels, our...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2012-02-01</td>
+      <td>...</td>
+      <td>$200.00</td>
+      <td>NaN</td>
+      <td>$0.00</td>
+      <td>5</td>
+      <td>1125</td>
+      <td>6</td>
+      <td>2014-09-13</td>
+      <td>2015-09-07</td>
+      <td>f</td>
+      <td>{"Cable TV",Internet,"Wireless Internet","Air ...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2015-05-05</td>
+      <td>1683708</td>
+      <td>Carlos And Cheryl</td>
+      <td>NaN</td>
+      <td>An excellent alternative to pricey hotels, our...</td>
+      <td>An excellent alternative to pricey hotels, our...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2012-02-01</td>
+      <td>...</td>
+      <td>$200.00</td>
+      <td>NaN</td>
+      <td>$0.00</td>
+      <td>5</td>
+      <td>1125</td>
+      <td>6</td>
+      <td>2014-09-13</td>
+      <td>2015-09-07</td>
+      <td>f</td>
+      <td>{"Cable TV",Internet,"Wireless Internet","Air ...</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 37 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="191">
+<div class="cell-output cell-output-display" data-execution_count="191">
+<pre><code>Index(['date', 'host_id', 'host_name', 'summary', 'space', 'description',
+       'neighborhood_overview', 'notes', 'transit', 'host_since',
+       'host_location', 'host_response_time', 'host_response_rate',
+       'host_acceptance_rate', 'host_neighbourhood', 'neighbourhood_cleansed',
+       'city', 'property_type', 'accommodates', 'bathrooms', 'room_type',
+       'bedrooms', 'beds', 'bed_type', 'price', 'weekly_price',
+       'monthly_price', 'security_deposit', 'cleaning_fee', 'extra_people',
+       'minimum_nights', 'maximum_nights', 'number_of_reviews', 'first_review',
+       'last_review', 'instant_bookable', 'amenities'],
+      dtype='object')</code></pre>
+</div>
+</div>
+<p>Before we dive into guest review of the host overall performance, it is important to understand the order of business from the host perspective, how the set up their unique business with airbnb, how the location, provision of added amenities rules and perferance are tailored into making guest comfortable and overall increasing their rating and goodwill.</p>
+<section id="data-cleaning" class="level2">
+<h2 class="anchored" data-anchor-id="data-cleaning">Data Cleaning</h2>
+<section id="drop-duplicates" class="level5">
+<h5 class="anchored" data-anchor-id="drop-duplicates">Drop Duplicates</h5>
+</section>
+<section id="change-all-price-column-to-numeric" class="level5">
+<h5 class="anchored" data-anchor-id="change-all-price-column-to-numeric">change all price column to numeric</h5>
+<div class="cell" data-execution_count="15">
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+Int64Index: 42945 entries, 0 to 43122
+Data columns (total 6 columns):
+ #   Column            Non-Null Count  Dtype  
+---  ------            --------------  -----  
+ 0   price             42945 non-null  float64
+ 1   weekly_price      19728 non-null  float64
+ 2   monthly_price     17114 non-null  float64
+ 3   security_deposit  17718 non-null  float64
+ 4   cleaning_fee      25087 non-null  float64
+ 5   extra_people      42945 non-null  float64
+dtypes: float64(6)
+memory usage: 2.3 MB</code></pre>
+</div>
+</div>
+</section>
+<section id="poorly-named-observations" class="level5">
+<h5 class="anchored" data-anchor-id="poorly-named-observations">poorly named observations</h5>
+</section>
+<section id="date-variables" class="level5">
+<h5 class="anchored" data-anchor-id="date-variables">Date variables</h5>
+</section>
+</section>
+<section id="data-summary" class="level2">
+<h2 class="anchored" data-anchor-id="data-summary">Data summary</h2>
+<p>NOTE:: There are duplicated host id due to the fact that some transaction were taken on different dates by different guest.</p>
+<div class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>(43123, 33)</code></pre>
+</div>
+</div>
+</section>
+<section id="colors" class="level2">
+<h2 class="anchored" data-anchor-id="colors">Colors</h2>
+</section>
+<section id="host-count" class="level2">
+<h2 class="anchored" data-anchor-id="host-count">Host Count</h2>
+<section id="overall-count" class="level4">
+<h4 class="anchored" data-anchor-id="overall-count">Overall count</h4>
+<div class="cell" data-execution_count="30">
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>1403</code></pre>
+</div>
+</div>
+<p>Out of 43,123 unique guest reviews, there are 1,403 hosts (performance reviewed by guest from the avaliable data.) || this alludes that there are 1,403 host performance reveiwed by guests.</p>
+</section>
+<section id="counts-based-on-host-location" class="level4">
+<h4 class="anchored" data-anchor-id="counts-based-on-host-location">Counts based on host location</h4>
+<div class="cell" data-execution_count="84">
+<div class="cell-output cell-output-display" data-execution_count="84">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>neighborhood_overview</th>
+      <th>host_location</th>
+      <th>host_neighbourhood</th>
+      <th>neighbourhood_cleansed</th>
+      <th>city</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>NaN</td>
+      <td>Tallahassee, Florida, United States</td>
+      <td>North End</td>
+      <td>North End</td>
+      <td>Boston</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NaN</td>
+      <td>Tallahassee, Florida, United States</td>
+      <td>North End</td>
+      <td>North End</td>
+      <td>Boston</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NaN</td>
+      <td>Tallahassee, Florida, United States</td>
+      <td>North End</td>
+      <td>North End</td>
+      <td>Boston</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NaN</td>
+      <td>Tallahassee, Florida, United States</td>
+      <td>North End</td>
+      <td>North End</td>
+      <td>Boston</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>NaN</td>
+      <td>Tallahassee, Florida, United States</td>
+      <td>North End</td>
+      <td>North End</td>
+      <td>Boston</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>43118</th>
+      <td>Downtown Crossing, lots of Bars and shops with...</td>
+      <td>Boston, Massachusetts, United States</td>
+      <td>Downtown Crossing</td>
+      <td>Downtown</td>
+      <td>Boston</td>
+    </tr>
+    <tr>
+      <th>43119</th>
+      <td>Downtown Crossing, lots of Bars and shops with...</td>
+      <td>Boston, Massachusetts, United States</td>
+      <td>Downtown Crossing</td>
+      <td>Downtown</td>
+      <td>Boston</td>
+    </tr>
+    <tr>
+      <th>43120</th>
+      <td>Downtown Crossing, lots of Bars and shops with...</td>
+      <td>Boston, Massachusetts, United States</td>
+      <td>Downtown Crossing</td>
+      <td>Downtown</td>
+      <td>Boston</td>
+    </tr>
+    <tr>
+      <th>43121</th>
+      <td>Downtown Crossing, lots of Bars and shops with...</td>
+      <td>Boston, Massachusetts, United States</td>
+      <td>Downtown Crossing</td>
+      <td>Downtown</td>
+      <td>Boston</td>
+    </tr>
+    <tr>
+      <th>43122</th>
+      <td>Downtown Crossing, lots of Bars and shops with...</td>
+      <td>Boston, Massachusetts, United States</td>
+      <td>Downtown Crossing</td>
+      <td>Downtown</td>
+      <td>Boston</td>
+    </tr>
+  </tbody>
+</table>
+<p>42945 rows × 5 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="75">
+<div class="cell-output cell-output-display" data-execution_count="75">
+<pre><code>array(['Cambridge, Massachusetts, United States',
+       'Allston part of Boston, by Cambridge'], dtype=object)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>69.36</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="909">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>looking at the top 10 locations 90% of the top 10 locations by count are in Boston, we can also see that Jamaica Plain in Boston have the most number of host <code>11%</code>, while other locations have an almost equal share.</p>
+</section>
+</section>
+<section id="price" class="level2">
+<h2 class="anchored" data-anchor-id="price">Price</h2>
+<section id="distribution" class="level3">
+<h3 class="anchored" data-anchor-id="distribution">Distribution</h3>
+<section id="price-1" class="level5">
+<h5 class="anchored" data-anchor-id="price-1">Price</h5>
+<div class="cell" data-execution_count="910">
+<div class="cell-output cell-output-display" data-execution_count="910">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>stats</th>
+      <th>price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>mean</td>
+      <td>145.48</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>std</td>
+      <td>90.58</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>min</td>
+      <td>30.00</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>25%</td>
+      <td>79.00</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>50%</td>
+      <td>120.00</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>75%</td>
+      <td>185.00</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>max</td>
+      <td>1200.00</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="958">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>The distribution of price charged by hosts on their (apartment) show that about 75% of all prices fall below $185. Also an average of $145.48 charges based on the current avaliable data.</p>
+<ol start="2" type="1">
+<li>Based on price charge for reservation by host, it appears that about 75% of reservation prices falls between $185 and below. In addition the average booking price using the un-filter data is $145.5</li>
+</ol>
+</section>
+<section id="weekly-price" class="level5">
+<h5 class="anchored" data-anchor-id="weekly-price">Weekly price</h5>
+<div class="cell" data-execution_count="955">
+<div class="cell-output cell-output-display" data-execution_count="955">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>stats</th>
+      <th>weekly_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>mean</td>
+      <td>910.14</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>std</td>
+      <td>522.52</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>min</td>
+      <td>200.00</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>25%</td>
+      <td>500.00</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>50%</td>
+      <td>800.00</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>75%</td>
+      <td>1140.00</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>max</td>
+      <td>4200.00</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="964">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>Just like the normal booking price distribution, majority for host charge lower amount for their service than higher amount given that about 75% of host charge $1,140 or below for a whole week. while there is a minimum amount of $200 there is also a massive difference when we look at the maximum price of $4,200. Additionally from the weekly distribution plot there are about 1,181 hosts that charge $900 to $919 which is the most used weekly charges.</p>
+</section>
+<section id="monthly-price" class="level5">
+<h5 class="anchored" data-anchor-id="monthly-price">Monthly Price</h5>
+<div class="cell" data-execution_count="965">
+<div class="cell-output cell-output-display" data-execution_count="965">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>stats</th>
+      <th>monthly_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>mean</td>
+      <td>3245.37</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>std</td>
+      <td>2075.20</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>min</td>
+      <td>650.00</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>25%</td>
+      <td>1800.00</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>50%</td>
+      <td>2772.00</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>75%</td>
+      <td>3990.00</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>max</td>
+      <td>15000.00</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="966">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>Based on the un-filterd review data, there is massive difference between the minimum ($650) and maximum ($15,000) monthly charges by host. From the plot, 75% charge $3,990 and below.</p>
+</section>
+</section>
+</section>
+<section id="price-based-in-host-location" class="level2">
+<h2 class="anchored" data-anchor-id="price-based-in-host-location">Price based in host location</h2>
+<section id="by-host-city" class="level3">
+<h3 class="anchored" data-anchor-id="by-host-city">By host city</h3>
+<section id="price-2" class="level4">
+<h4 class="anchored" data-anchor-id="price-2">Price</h4>
+<div class="cell" data-execution_count="17">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="18">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="19">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="q1" class="level2">
+<h2 class="anchored" data-anchor-id="q1">Q1</h2>
+<section id="given-the-number-of-period-a-host-have-been-in-the-hospitality-business-is-there-a-chance-that-longer-period-equal-higher-reservation-cost-for-guest." class="level4">
+<h4 class="anchored" data-anchor-id="given-the-number-of-period-a-host-have-been-in-the-hospitality-business-is-there-a-chance-that-longer-period-equal-higher-reservation-cost-for-guest.">Given the number of period a host have been in the hospitality business, is there a chance that longer period equal higher reservation cost for guest.</h4>
+</section>
+<section id="number-of-period-beign-a-host" class="level4">
+<h4 class="anchored" data-anchor-id="number-of-period-beign-a-host">Number of period beign a host</h4>
+<div class="cell" data-execution_count="980">
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\AYOMIDE\AppData\Local\Temp\ipykernel_12840\2474134266.py:4: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="980">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>host_id</th>
+      <th>date</th>
+      <th>host_since</th>
+      <th>host_since_days</th>
+      <th>max_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1683708</td>
+      <td>2014-09-13</td>
+      <td>2012-02-01</td>
+      <td>955.0</td>
+      <td>2015-09-07</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1683708</td>
+      <td>2015-04-16</td>
+      <td>2012-02-01</td>
+      <td>1170.0</td>
+      <td>2015-09-07</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1683708</td>
+      <td>2015-05-05</td>
+      <td>2012-02-01</td>
+      <td>1189.0</td>
+      <td>2015-09-07</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1683708</td>
+      <td>2015-05-12</td>
+      <td>2012-02-01</td>
+      <td>1196.0</td>
+      <td>2015-09-07</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1683708</td>
+      <td>2015-06-07</td>
+      <td>2012-02-01</td>
+      <td>1222.0</td>
+      <td>2015-09-07</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>43118</th>
+      <td>28363919</td>
+      <td>2015-08-20</td>
+      <td>2015-02-25</td>
+      <td>176.0</td>
+      <td>2015-09-29</td>
+    </tr>
+    <tr>
+      <th>43119</th>
+      <td>28363919</td>
+      <td>2015-08-21</td>
+      <td>2015-02-25</td>
+      <td>177.0</td>
+      <td>2015-09-29</td>
+    </tr>
+    <tr>
+      <th>43120</th>
+      <td>28363919</td>
+      <td>2015-08-25</td>
+      <td>2015-02-25</td>
+      <td>181.0</td>
+      <td>2015-09-29</td>
+    </tr>
+    <tr>
+      <th>43121</th>
+      <td>28363919</td>
+      <td>2015-08-28</td>
+      <td>2015-02-25</td>
+      <td>184.0</td>
+      <td>2015-09-29</td>
+    </tr>
+    <tr>
+      <th>43122</th>
+      <td>28363919</td>
+      <td>2015-09-02</td>
+      <td>2015-02-25</td>
+      <td>189.0</td>
+      <td>2015-09-29</td>
+    </tr>
+  </tbody>
+</table>
+<p>42945 rows × 5 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="982">
+<div class="cell-output cell-output-display" data-execution_count="982">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>stats</th>
+      <th>host_since_days</th>
+      <th>years</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>mean</td>
+      <td>664.82</td>
+      <td>1.821425</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>std</td>
+      <td>507.82</td>
+      <td>1.391288</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>min</td>
+      <td>4.00</td>
+      <td>0.010959</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>25%</td>
+      <td>249.50</td>
+      <td>0.683562</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>50%</td>
+      <td>543.50</td>
+      <td>1.489041</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>75%</td>
+      <td>986.75</td>
+      <td>2.703425</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>max</td>
+      <td>2483.00</td>
+      <td>6.802740</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="985">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>Experience can be a major advantage when into the hospitality industry as with any other industry, looking at the distribution summary for the number of days of servicing, majority e.i 75% have been hosting for more than 2 years or close to 3 years. furthermore, the general average period for all host is less than 2 years if the outliers of longer periods are put into consideration. so we can say that a majority of host are very much are working towards their second year in service.</p>
+</section>
+<section id="host-experience-price-structure" class="level4">
+<h4 class="anchored" data-anchor-id="host-experience-price-structure">Host experience &amp; price structure</h4>
+<div class="cell" data-execution_count="21">
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\AYOMIDE\AppData\Local\Temp\ipykernel_6348\2571701810.py:3: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+C:\Users\AYOMIDE\AppData\Local\Temp\ipykernel_6348\2571701810.py:7: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+C:\Users\AYOMIDE\AppData\Local\Temp\ipykernel_6348\2571701810.py:7: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+C:\Users\AYOMIDE\AppData\Local\Temp\ipykernel_6348\2571701810.py:7: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+C:\Users\AYOMIDE\AppData\Local\Temp\ipykernel_6348\2571701810.py:7: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+C:\Users\AYOMIDE\AppData\Local\Temp\ipykernel_6348\2571701810.py:7: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+C:\Users\AYOMIDE\AppData\Local\Temp\ipykernel_6348\2571701810.py:7: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="22">
+<div class="cell-output cell-output-display" data-execution_count="22">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>host_id</th>
+      <th>date</th>
+      <th>host_since_days</th>
+      <th>price</th>
+      <th>weekly_price</th>
+      <th>monthly_price</th>
+      <th>security_deposit</th>
+      <th>cleaning_fee</th>
+      <th>extra_people</th>
+      <th>max_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>33492</th>
+      <td>5350366</td>
+      <td>2015-10-02</td>
+      <td>940.0</td>
+      <td>80.0</td>
+      <td>425.0</td>
+      <td>1200.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>2015-10-02</td>
+    </tr>
+    <tr>
+      <th>39441</th>
+      <td>10132799</td>
+      <td>2015-10-02</td>
+      <td>682.0</td>
+      <td>79.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>200.0</td>
+      <td>29.0</td>
+      <td>29.0</td>
+      <td>2015-10-02</td>
+    </tr>
+    <tr>
+      <th>41750</th>
+      <td>17844905</td>
+      <td>2015-10-02</td>
+      <td>451.0</td>
+      <td>95.0</td>
+      <td>675.0</td>
+      <td>2400.0</td>
+      <td>NaN</td>
+      <td>45.0</td>
+      <td>0.0</td>
+      <td>2015-10-02</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="1021">
+<div class="cell-output cell-output-display" data-execution_count="1021">
+<pre><code>'avg monthly price'</code></pre>
+</div>
+</div>
+<section id="price-3" class="level5">
+<h5 class="anchored" data-anchor-id="price-3">Price</h5>
+<div class="cell" data-execution_count="1026">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+</section>
+<section id="weekly-average-price" class="level5">
+<h5 class="anchored" data-anchor-id="weekly-average-price">Weekly Average Price</h5>
+<div class="cell" data-execution_count="1029">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+</section>
+<section id="monthly-average-price" class="level5">
+<h5 class="anchored" data-anchor-id="monthly-average-price">Monthly Average Price</h5>
+<div class="cell" data-execution_count="1030">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+</section>
+<section id="correlation" class="level5">
+<h5 class="anchored" data-anchor-id="correlation">Correlation</h5>
+<div class="cell" data-execution_count="26">
+<div class="cell-output cell-output-display" data-execution_count="26">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>host_since_days</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>host_since_days</th>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>price</th>
+      <td>-0.001</td>
+    </tr>
+    <tr>
+      <th>weekly_price</th>
+      <td>0.020</td>
+    </tr>
+    <tr>
+      <th>monthly_price</th>
+      <td>-0.008</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="1039">
+<div class="cell-output cell-output-error">
+<pre><code>ImportError: Missing optional dependency 'Jinja2'. DataFrame.style requires jinja2. Use pip or conda to install Jinja2.</code></pre>
+</div>
+</div>
+<p>Anaysis on the number of periods each host have been in the service industry with airbnb and their various price structure shows that there is not an obvious relationship between the number of period and service amount, investigating further might suggest reason such as competition driving price, guest affordability, state/industry price benchmark and so on.</p>
+</section>
+</section>
+</section>
+<section id="q2" class="level2">
+<h2 class="anchored" data-anchor-id="q2">Q2</h2>
+<section id="what-are-the-add-provisionscost-involved-in-having-extra-people-on-a-reservation." class="level5">
+<h5 class="anchored" data-anchor-id="what-are-the-add-provisionscost-involved-in-having-extra-people-on-a-reservation.">What are the add provisions/cost involved in having extra people on a reservation.</h5>
+</section>
+<section id="number-of-accommodated-guest" class="level5">
+<h5 class="anchored" data-anchor-id="number-of-accommodated-guest">Number of accommodated guest</h5>
+<div class="cell" data-execution_count="51">
+<div class="cell-output cell-output-display" data-execution_count="51">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>accommodates</th>
+      <th>count</th>
+      <th>proportion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>673</td>
+      <td>48.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4</td>
+      <td>260</td>
+      <td>19.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>173</td>
+      <td>12.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>162</td>
+      <td>12.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6</td>
+      <td>49</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>5</td>
+      <td>49</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>8</td>
+      <td>22</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>7</td>
+      <td>8</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>10</td>
+      <td>3</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>11</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>14</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>9</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>12</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="56">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>Looking at the number of guests hosts can comfortable accommodate, the average show that about 48% of host want to host just two guest while 90% of guest are willing to accomodate from 1 to 4 guests.</p>
+</section>
+<section id="minimum-number-of-nights-reservation." class="level5">
+<h5 class="anchored" data-anchor-id="minimum-number-of-nights-reservation.">Minimum number of nights reservation.</h5>
+<div class="cell" data-execution_count="57">
+<div class="cell-output cell-output-display" data-execution_count="57">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>minimum_nights</th>
+      <th>count</th>
+      <th>proportion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>694</td>
+      <td>49.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>420</td>
+      <td>30.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>163</td>
+      <td>12.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>38</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>32</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>7</td>
+      <td>27</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>14</td>
+      <td>11</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>6</td>
+      <td>9</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>25</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>28</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>11</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>21</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>27</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>9</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>10</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>30</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>15</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="58">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>For the minimum nights a guest must accept during reservation, 49% of hosts fixed the minimum to 1 night while 91% of all hosts have a restriction from a minimum of 1 night to 3 nights.</p>
+</section>
+<section id="more-or-less-price-if-we-put-the-number-of-guets-and-minimum-nights-into-consideration." class="level5">
+<h5 class="anchored" data-anchor-id="more-or-less-price-if-we-put-the-number-of-guets-and-minimum-nights-into-consideration.">more or less price if we put the number of guets and minimum nights into consideration.</h5>
+<div class="cell" data-execution_count="69">
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\AYOMIDE\AppData\Local\Temp\ipykernel_6348\2873075951.py:3: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+C:\Users\AYOMIDE\AppData\Local\Temp\ipykernel_6348\2873075951.py:4: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+C:\Users\AYOMIDE\AppData\Local\Temp\ipykernel_6348\2873075951.py:7: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+C:\Users\AYOMIDE\AppData\Local\Temp\ipykernel_6348\2873075951.py:8: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+C:\Users\AYOMIDE\AppData\Local\Temp\ipykernel_6348\2873075951.py:7: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+C:\Users\AYOMIDE\AppData\Local\Temp\ipykernel_6348\2873075951.py:8: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="70">
+<div class="cell-output cell-output-display" data-execution_count="70">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>accommodates</th>
+      <th>price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>86.384393</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>139.359584</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>178.185185</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>223.525000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>252.653061</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>303.346939</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>315.500000</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>351.500000</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>225.000000</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>306.666667</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>11</td>
+      <td>400.000000</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>12</td>
+      <td>400.000000</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>14</td>
+      <td>400.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="accommodation" class="level5">
+<h5 class="anchored" data-anchor-id="accommodation">Accommodation</h5>
+<div class="cell" data-execution_count="75">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>There is a steady increase in the average price of reservation as the number of accommodated guests increases with some exception such as host accommodating as much as 9 guests.</p>
+</section>
+<section id="mimimum-nights" class="level5">
+<h5 class="anchored" data-anchor-id="mimimum-nights">Mimimum nights</h5>
+<div class="cell" data-execution_count="76">
+<div class="cell-output cell-output-display" data-execution_count="76">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>minimum_nights</th>
+      <th>price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>151.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>181.815476</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>194.340491</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>208.184211</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>202.093750</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>147.111111</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>167.185185</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>9</td>
+      <td>60.000000</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>10</td>
+      <td>75.000000</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>11</td>
+      <td>45.000000</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>14</td>
+      <td>148.454545</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>15</td>
+      <td>60.000000</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>21</td>
+      <td>99.000000</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>25</td>
+      <td>125.000000</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>27</td>
+      <td>160.000000</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>28</td>
+      <td>150.000000</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>30</td>
+      <td>105.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="67">
+<div class="cell-output cell-output-stdout">
+<pre><code>Minimum Night(s): &lt;b&gt;%{x}&lt;/b&gt;&lt;br&gt;price: &lt;b&gt;%{y}&lt;/b&gt;&lt;extra&gt;&lt;/extra&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="77">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="q3" class="level2">
+<h2 class="anchored" data-anchor-id="q3">Q3</h2>
+<section id="property-type-host-location-and-price-summary" class="level5">
+<h5 class="anchored" data-anchor-id="property-type-host-location-and-price-summary">Property type, host location and price summary</h5>
+<p>Using the average price and … &gt; get the summary for city, neighbourhood &gt; group by the top cities and get the price of the best neighbourhood.</p>
+<div class="cell" data-execution_count="1106">
+<div class="cell-output cell-output-display" data-execution_count="1106">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>host_id</th>
+      <th>host_location</th>
+      <th>host_neighbourhood</th>
+      <th>price</th>
+      <th>weekly_price</th>
+      <th>monthly_price</th>
+      <th>security_deposit</th>
+      <th>cleaning_fee</th>
+      <th>extra_people</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1683708</td>
+      <td>North End, Boston</td>
+      <td>North End</td>
+      <td>140.0</td>
+      <td>925.0</td>
+      <td>2800.0</td>
+      <td>200.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1683708</td>
+      <td>North End, Boston</td>
+      <td>North End</td>
+      <td>140.0</td>
+      <td>925.0</td>
+      <td>2800.0</td>
+      <td>200.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1683708</td>
+      <td>North End, Boston</td>
+      <td>North End</td>
+      <td>140.0</td>
+      <td>925.0</td>
+      <td>2800.0</td>
+      <td>200.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="host-location" class="level4">
+<h4 class="anchored" data-anchor-id="host-location">Host Location</h4>
+<div class="cell" data-execution_count="1109">
+<div class="cell-output cell-output-display" data-execution_count="1109">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>host_location</th>
+      <th>count</th>
+      <th>proportion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Jamaica Plain, Boston</td>
+      <td>158</td>
+      <td>11.00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Unspecified, Boston</td>
+      <td>125</td>
+      <td>8.70</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>South End, Boston</td>
+      <td>122</td>
+      <td>8.50</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Allston-Brighton, Boston</td>
+      <td>114</td>
+      <td>7.94</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Back Bay, Boston</td>
+      <td>100</td>
+      <td>6.96</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Beacon Hill, Boston</td>
+      <td>78</td>
+      <td>5.43</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>South Boston, Boston</td>
+      <td>77</td>
+      <td>5.36</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Fenway/Kenmore, Boston</td>
+      <td>73</td>
+      <td>5.08</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Dorchester, Boston</td>
+      <td>63</td>
+      <td>4.39</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Cambridge</td>
+      <td>63</td>
+      <td>4.39</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>North End, Boston</td>
+      <td>60</td>
+      <td>4.18</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Brookline</td>
+      <td>47</td>
+      <td>3.27</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Roxbury, Boston</td>
+      <td>44</td>
+      <td>3.06</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>East Boston, Boston</td>
+      <td>43</td>
+      <td>2.99</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Charlestown, Boston</td>
+      <td>34</td>
+      <td>2.37</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Roslindale, Boston</td>
+      <td>26</td>
+      <td>1.81</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Mission Hill, Boston</td>
+      <td>19</td>
+      <td>1.32</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Somerville</td>
+      <td>18</td>
+      <td>1.25</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Roxbury Crossing</td>
+      <td>14</td>
+      <td>0.97</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Brighton</td>
+      <td>13</td>
+      <td>0.91</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Downtown Crossing, Boston</td>
+      <td>12</td>
+      <td>0.84</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>Theater District, Boston</td>
+      <td>11</td>
+      <td>0.77</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>West End, Boston</td>
+      <td>10</td>
+      <td>0.70</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Charlestown</td>
+      <td>10</td>
+      <td>0.70</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Chinatown, Boston</td>
+      <td>9</td>
+      <td>0.63</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>Allston</td>
+      <td>8</td>
+      <td>0.56</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>West Roxbury, Boston</td>
+      <td>7</td>
+      <td>0.49</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>Cambridge, Boston</td>
+      <td>7</td>
+      <td>0.49</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>Hyde Park, Boston</td>
+      <td>7</td>
+      <td>0.49</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>Roslindale</td>
+      <td>6</td>
+      <td>0.42</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>Dorchester</td>
+      <td>5</td>
+      <td>0.35</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>Leather District, Boston</td>
+      <td>5</td>
+      <td>0.35</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>Brookline, Boston</td>
+      <td>4</td>
+      <td>0.28</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>Newton</td>
+      <td>4</td>
+      <td>0.28</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>Revere</td>
+      <td>3</td>
+      <td>0.21</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>Milton</td>
+      <td>3</td>
+      <td>0.21</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>Downtown, Boston</td>
+      <td>3</td>
+      <td>0.21</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>Mattapan, Boston</td>
+      <td>3</td>
+      <td>0.21</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>West Roxbury</td>
+      <td>2</td>
+      <td>0.14</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>East Boston</td>
+      <td>2</td>
+      <td>0.14</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>South Boston</td>
+      <td>2</td>
+      <td>0.14</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>Financial District, Boston</td>
+      <td>2</td>
+      <td>0.14</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>Upper East Side, Boston</td>
+      <td>1</td>
+      <td>0.07</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>Roxbury</td>
+      <td>1</td>
+      <td>0.07</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>Mattapan</td>
+      <td>1</td>
+      <td>0.07</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>Watertown</td>
+      <td>1</td>
+      <td>0.07</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>South Beach, Boston</td>
+      <td>1</td>
+      <td>0.07</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>dorchester, boston</td>
+      <td>1</td>
+      <td>0.07</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>Coolidge Corner, Boston</td>
+      <td>1</td>
+      <td>0.07</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>Gay Village, Boston</td>
+      <td>1</td>
+      <td>0.07</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="1111">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>90% of the top 10 locations by count are in Boston, we can also see that Jamaica Plain in Boston have the most number of host <code>11%</code>, while other locations have an almost equal share.</p>
+<div class="cell" data-execution_count="590">
+<div class="cell-output cell-output-display" data-execution_count="590">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>host_loc</th>
+      <th>price_structure</th>
+      <th>charges</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Downtown Crossing, Boston</td>
+      <td>price</td>
+      <td>265.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Cambridge, Boston</td>
+      <td>price</td>
+      <td>250.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>West End, Boston</td>
+      <td>price</td>
+      <td>225.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Back Bay, Boston</td>
+      <td>price</td>
+      <td>199.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Charlestown, Boston</td>
+      <td>price</td>
+      <td>199.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="591">
+<div class="cell-output cell-output-display">
+<p><img src="host_files/figure-html/cell-68-output-1.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="591">
+<pre><code>&lt;ggplot: (105051679003)&gt;</code></pre>
+</div>
+</div>
+<section id="most-expensive-locations" class="level5">
+<h5 class="anchored" data-anchor-id="most-expensive-locations">Most Expensive locations</h5>
+<div class="cell" data-execution_count="1151">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>Looking at the top 10 highest median reservation cost, <code>Downtown Crossing in Boston 12</code>, <code>Cambridge, Boston 7</code>, <code>West End, Boston 10</code> top the chart and given that all three locations have less number of host compare to other locations, one of the reasons for such high price can be lack of competitions from other “airbnb” service peoviders.</p>
+<div class="cell" data-execution_count="1146">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>The highest weekly average reservation cost can from hosts in <code>cambridge, Boston</code>, it cost roughly 1,733 more for a weekly reservation than other locations.</p>
+<div class="cell" data-execution_count="1147">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>Just like the price of reservation, average cost of booking an accommodation is much higher in <code>Downtown Crossing, Boston</code> where the average is 9,500 and <code>Cambridge, Boston</code> costing 7,200.</p>
+<div class="cell" data-execution_count="1148">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>Extra deposit for security mesures cost more in <code>West Roxbury, Boston</code>, <code>Chinatown, Boston</code> &amp; <code>Charlestown, Boston</code> $200 more than other locations.</p>
+<div class="cell" data-execution_count="1149">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>The Average charges for cleaning services is higher in <code>Cambridge, Boston</code> as it cost $19 more than other locations.</p>
+<p>Overall reservation cost are more expensive in locations such as <code>Downtown Crossing</code>, <code>cambridge</code> and <code>Chinatown</code> while extra charges on security and sanitation cost more in <code>cambridge</code>. furthermore is also important to note that the number of hosts present in the above listed locations are quite small compaired to other locations.</p>
+</section>
+</section>
+</section>
+<section id="q4" class="level2">
+<h2 class="anchored" data-anchor-id="q4">Q4</h2>
+<section id="type-of-property-and-its-costs-in-selected-locations." class="level5">
+<h5 class="anchored" data-anchor-id="type-of-property-and-its-costs-in-selected-locations.">Type of Property and its costs in selected locations.</h5>
+<div class="cell" data-execution_count="633">
+<div class="cell-output cell-output-display" data-execution_count="633">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>host_id</th>
+      <th>property_type</th>
+      <th>price</th>
+      <th>weekly_price</th>
+      <th>monthly_price</th>
+      <th>security_deposit</th>
+      <th>cleaning_fee</th>
+      <th>extra_people</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1683708</td>
+      <td>Apartment</td>
+      <td>140.0</td>
+      <td>925.0</td>
+      <td>2800.0</td>
+      <td>200.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1683708</td>
+      <td>Apartment</td>
+      <td>140.0</td>
+      <td>925.0</td>
+      <td>2800.0</td>
+      <td>200.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1683708</td>
+      <td>Apartment</td>
+      <td>140.0</td>
+      <td>925.0</td>
+      <td>2800.0</td>
+      <td>200.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1683708</td>
+      <td>Apartment</td>
+      <td>140.0</td>
+      <td>925.0</td>
+      <td>2800.0</td>
+      <td>200.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1683708</td>
+      <td>Apartment</td>
+      <td>140.0</td>
+      <td>925.0</td>
+      <td>2800.0</td>
+      <td>200.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>43118</th>
+      <td>28363919</td>
+      <td>Apartment</td>
+      <td>99.0</td>
+      <td>690.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>25.0</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>43119</th>
+      <td>28363919</td>
+      <td>Apartment</td>
+      <td>99.0</td>
+      <td>690.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>25.0</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>43120</th>
+      <td>28363919</td>
+      <td>Apartment</td>
+      <td>99.0</td>
+      <td>690.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>25.0</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>43121</th>
+      <td>28363919</td>
+      <td>Apartment</td>
+      <td>99.0</td>
+      <td>690.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>25.0</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>43122</th>
+      <td>28363919</td>
+      <td>Apartment</td>
+      <td>99.0</td>
+      <td>690.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>25.0</td>
+      <td>15.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>42945 rows × 8 columns</p>
+</div>
+</div>
+</div>
+</section>
+<section id="property-type-count" class="level4">
+<h4 class="anchored" data-anchor-id="property-type-count">Property type count</h4>
+<div class="cell" data-execution_count="1152">
+<div class="cell-output cell-output-display" data-execution_count="1152">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>property_type</th>
+      <th>count</th>
+      <th>proportion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Apartment</td>
+      <td>1091</td>
+      <td>74.88</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>House</td>
+      <td>236</td>
+      <td>16.20</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Condominium</td>
+      <td>57</td>
+      <td>3.91</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Loft</td>
+      <td>24</td>
+      <td>1.65</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Bed &amp; Breakfast</td>
+      <td>24</td>
+      <td>1.65</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Townhouse</td>
+      <td>9</td>
+      <td>0.62</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Boat</td>
+      <td>6</td>
+      <td>0.41</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Other</td>
+      <td>3</td>
+      <td>0.21</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Dorm</td>
+      <td>3</td>
+      <td>0.21</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Cabin</td>
+      <td>2</td>
+      <td>0.14</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Castle</td>
+      <td>1</td>
+      <td>0.07</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Villa</td>
+      <td>1</td>
+      <td>0.07</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="646">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>The most (popular) Property in use for (reservations) is Apartment which is 74.88% of all property type in use while the least used property is Castle and villa.</p>
+</section>
+<section id="property-price-summary" class="level4">
+<h4 class="anchored" data-anchor-id="property-price-summary">Property price summary</h4>
+<div class="cell" data-execution_count="1179">
+<div class="cell-output cell-output-display" data-execution_count="1179">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>property_type</th>
+      <th>variable</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Apartment</td>
+      <td>Price</td>
+      <td>144.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Bed &amp; Breakfast</td>
+      <td>Price</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Boat</td>
+      <td>Price</td>
+      <td>225.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Cabin</td>
+      <td>Price</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Castle</td>
+      <td>Price</td>
+      <td>110.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Condominium</td>
+      <td>Price</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Dorm</td>
+      <td>Price</td>
+      <td>120.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>House</td>
+      <td>Price</td>
+      <td>85.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Loft</td>
+      <td>Price</td>
+      <td>225.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Other</td>
+      <td>Price</td>
+      <td>75.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Townhouse</td>
+      <td>Price</td>
+      <td>165.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Villa</td>
+      <td>Price</td>
+      <td>40.0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Apartment</td>
+      <td>Weekly Price</td>
+      <td>900.0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Bed &amp; Breakfast</td>
+      <td>Weekly Price</td>
+      <td>500.0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Boat</td>
+      <td>Weekly Price</td>
+      <td>1500.0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Cabin</td>
+      <td>Weekly Price</td>
+      <td>1000.0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Castle</td>
+      <td>Weekly Price</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Condominium</td>
+      <td>Weekly Price</td>
+      <td>650.0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Dorm</td>
+      <td>Weekly Price</td>
+      <td>1200.0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>House</td>
+      <td>Weekly Price</td>
+      <td>575.0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Loft</td>
+      <td>Weekly Price</td>
+      <td>1400.0</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>Other</td>
+      <td>Weekly Price</td>
+      <td>900.0</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>Townhouse</td>
+      <td>Weekly Price</td>
+      <td>475.0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Villa</td>
+      <td>Weekly Price</td>
+      <td>250.0</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Apartment</td>
+      <td>Monthly Price</td>
+      <td>3100.0</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>Bed &amp; Breakfast</td>
+      <td>Monthly Price</td>
+      <td>1450.0</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>Boat</td>
+      <td>Monthly Price</td>
+      <td>4431.0</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>Cabin</td>
+      <td>Monthly Price</td>
+      <td>3000.0</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>Castle</td>
+      <td>Monthly Price</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>Condominium</td>
+      <td>Monthly Price</td>
+      <td>2900.0</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>Dorm</td>
+      <td>Monthly Price</td>
+      <td>3000.0</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>House</td>
+      <td>Monthly Price</td>
+      <td>2100.0</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>Loft</td>
+      <td>Monthly Price</td>
+      <td>4750.0</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>Other</td>
+      <td>Monthly Price</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>Townhouse</td>
+      <td>Monthly Price</td>
+      <td>15000.0</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>Villa</td>
+      <td>Monthly Price</td>
+      <td>800.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="1180">
+<div class="cell-output cell-output-stderr">
+<pre><code>c:\Users\AYOMIDE\vs-python\text_env\lib\site-packages\plotnine\layer.py:391: PlotnineWarning: position_stack : Removed 3 rows containing missing values.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="host_files/figure-html/cell-79-output-2.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="1180">
+<pre><code>&lt;ggplot: (105080438815)&gt;</code></pre>
+</div>
+</div>
+<p>Both <code>Loft</code> and <code>Boat</code> have the highest median cost for price and weekly price, Importantly <code>Townhouse</code> cost more on a monthly bases than other types of property.</p>
+</section>
+</section>
+<section id="q5" class="level2">
+<h2 class="anchored" data-anchor-id="q5">Q5</h2>
+<section id="summary-of-charges-based-on-the-features-of-the-property." class="level5">
+<h5 class="anchored" data-anchor-id="summary-of-charges-based-on-the-features-of-the-property.">Summary of charges based on the features of the property.</h5>
+<div class="cell" data-execution_count="679">
+<div class="cell-output cell-output-display" data-execution_count="679">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>price</th>
+      <th>room_type</th>
+      <th>bathrooms</th>
+      <th>beds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>140.0</td>
+      <td>Entire home/apt</td>
+      <td>1.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>140.0</td>
+      <td>Entire home/apt</td>
+      <td>1.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>140.0</td>
+      <td>Entire home/apt</td>
+      <td>1.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>140.0</td>
+      <td>Entire home/apt</td>
+      <td>1.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>140.0</td>
+      <td>Entire home/apt</td>
+      <td>1.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>43118</th>
+      <td>99.0</td>
+      <td>Private room</td>
+      <td>1.5</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>43119</th>
+      <td>99.0</td>
+      <td>Private room</td>
+      <td>1.5</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>43120</th>
+      <td>99.0</td>
+      <td>Private room</td>
+      <td>1.5</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>43121</th>
+      <td>99.0</td>
+      <td>Private room</td>
+      <td>1.5</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>43122</th>
+      <td>99.0</td>
+      <td>Private room</td>
+      <td>1.5</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>42945 rows × 4 columns</p>
+</div>
+</div>
+</div>
+</section>
+<section id="room-type" class="level5">
+<h5 class="anchored" data-anchor-id="room-type">Room Type</h5>
+<div class="cell" data-execution_count="1181">
+<div class="cell-output cell-output-display" data-execution_count="1181">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>room_type</th>
+      <th>count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Entire home/apt</td>
+      <td>846</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Private room</td>
+      <td>607</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Shared room</td>
+      <td>36</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="1201">
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;b&gt;%{hovertext}&lt;/b&gt;&lt;br&gt;&lt;br&gt;count=%{value}&lt;extra&gt;&lt;/extra&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>About 2.42% of hosts offered a <code>shared room</code> type, while majority (i.e 56.8%) put <code>entire apartment</code> out for service.</p>
+</section>
+<section id="bathroom-beds-price-correlation" class="level4">
+<h4 class="anchored" data-anchor-id="bathroom-beds-price-correlation">bathroom, beds, price correlation</h4>
+<div class="cell" data-execution_count="60">
+<div class="cell-output cell-output-display" data-execution_count="60">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>host_id</th>
+      <th>beds</th>
+      <th>bathrooms</th>
+      <th>price</th>
+      <th>weekly_price</th>
+      <th>monthly_price</th>
+      <th>extra_people</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4240</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>50.0</td>
+      <td>400.0</td>
+      <td>1200.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4804</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>225.0</td>
+      <td>1400.0</td>
+      <td>3600.0</td>
+      <td>20.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>8021</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>150.0</td>
+      <td>750.0</td>
+      <td>2500.0</td>
+      <td>25.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>8229</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>195.0</td>
+      <td>980.0</td>
+      <td>3000.0</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>16701</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>65.0</td>
+      <td>395.0</td>
+      <td>1350.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="77">
+<div class="cell-output cell-output-display" data-execution_count="77">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>beds</th>
+      <th>bathrooms</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Price</th>
+      <td>0.478561</td>
+      <td>0.347609</td>
+    </tr>
+    <tr>
+      <th>Weekly Price</th>
+      <td>0.476770</td>
+      <td>0.278872</td>
+    </tr>
+    <tr>
+      <th>Monthly Price</th>
+      <td>0.459499</td>
+      <td>0.199114</td>
+    </tr>
+    <tr>
+      <th>Extra People</th>
+      <td>0.169811</td>
+      <td>0.082559</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="79">
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;b&gt;%{x}&lt;/b&gt;&lt;br&gt;&lt;b&gt;%{y}&lt;/b&gt;&lt;br&gt;&lt;extra&gt;&lt;/extra&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>from the above analysis, we can see a moderate correlation between the median number of beds a property have and the cost of booking such property. this <code>imply</code> that to so extent when the number of rooms present in a property is more there is are high <code>tendencie</code> that cost of booking such property will also be high, in addition the number of bathrooms in a property have a low correlation with the price of the apartment.</p>
+<p>** NOT RELATED ** If we tell our self the truth we will hate each other that is why we tell our self lies so that we can love each other.</p>
+</section>
+</section>
+<section id="q6" class="level2">
+<h2 class="anchored" data-anchor-id="q6">Q6</h2>
+<section id="are-instant-booking-common-in-specific-locations" class="level5">
+<h5 class="anchored" data-anchor-id="are-instant-booking-common-in-specific-locations">Are instant booking common in specific locations?</h5>
+</section>
+<section id="instant-booking-choice" class="level5">
+<h5 class="anchored" data-anchor-id="instant-booking-choice">Instant booking choice</h5>
+<div class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>Majority of host do not have a option for instant bookings and will requare a specified number of period before guest arrival.</p>
+</section>
+<section id="by-host-location." class="level5">
+<h5 class="anchored" data-anchor-id="by-host-location.">by host location.</h5>
+<div class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="15">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>host_location</th>
+      <th>instant_bookable</th>
+      <th>count</th>
+      <th>proportion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>17</th>
+      <td>Allston-Brighton, Boston</td>
+      <td>True</td>
+      <td>15</td>
+      <td>12.93</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Jamaica Plain, Boston</td>
+      <td>True</td>
+      <td>14</td>
+      <td>8.75</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>South End, Boston</td>
+      <td>True</td>
+      <td>14</td>
+      <td>11.38</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>East Boston, Boston</td>
+      <td>True</td>
+      <td>12</td>
+      <td>27.27</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>Unspecified, Boston</td>
+      <td>True</td>
+      <td>12</td>
+      <td>9.52</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Back Bay, Boston</td>
+      <td>True</td>
+      <td>11</td>
+      <td>10.68</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>Dorchester, Boston</td>
+      <td>True</td>
+      <td>10</td>
+      <td>15.38</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>Beacon Hill, Boston</td>
+      <td>True</td>
+      <td>10</td>
+      <td>12.50</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>Roxbury, Boston</td>
+      <td>True</td>
+      <td>8</td>
+      <td>17.78</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>Fenway/Kenmore, Boston</td>
+      <td>True</td>
+      <td>7</td>
+      <td>9.59</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Jamaica Plain, Boston</td>
+      <td>False</td>
+      <td>146</td>
+      <td>91.25</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Unspecified, Boston</td>
+      <td>False</td>
+      <td>114</td>
+      <td>90.48</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>South End, Boston</td>
+      <td>False</td>
+      <td>109</td>
+      <td>88.62</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Allston-Brighton, Boston</td>
+      <td>False</td>
+      <td>101</td>
+      <td>87.07</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Back Bay, Boston</td>
+      <td>False</td>
+      <td>92</td>
+      <td>89.32</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Beacon Hill, Boston</td>
+      <td>False</td>
+      <td>70</td>
+      <td>87.50</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Fenway/Kenmore, Boston</td>
+      <td>False</td>
+      <td>66</td>
+      <td>90.41</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Dorchester, Boston</td>
+      <td>False</td>
+      <td>55</td>
+      <td>84.62</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Roxbury, Boston</td>
+      <td>False</td>
+      <td>37</td>
+      <td>82.22</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>East Boston, Boston</td>
+      <td>False</td>
+      <td>32</td>
+      <td>72.73</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="19">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>Host in <code>East Boston, Boston</code> have a higher percentage (27.27%) of hosts that accept instant bookings so as <code>Roxbury, Boston</code> and <code>Dorchester, Boston</code> locations than other host locations.</p>
+</section>
+</section>
+<section id="q7" class="level2">
+<h2 class="anchored" data-anchor-id="q7">Q7</h2>
+<section id="what-are-the-most-popularimportant-amenities-offered-by-hosts-and-how-does-the-number-affect-the-price-structure." class="level5">
+<h5 class="anchored" data-anchor-id="what-are-the-most-popularimportant-amenities-offered-by-hosts-and-how-does-the-number-affect-the-price-structure.">what are the most popular/important amenities offered by hosts and how does the number affect the price structure.</h5>
+</section>
+<section id="security-priority" class="level5">
+<h5 class="anchored" data-anchor-id="security-priority">Security priority</h5>
+<div class="cell" data-execution_count="50">
+<div class="cell-output cell-output-display" data-execution_count="50">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>security_amenities</th>
+      <th>count</th>
+      <th>proportion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Smoke Detector</td>
+      <td>1550</td>
+      <td>81.11</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Carbon Monoxide Detector</td>
+      <td>1253</td>
+      <td>65.57</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Fire Extinguisher</td>
+      <td>866</td>
+      <td>45.32</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>First Aid Kit</td>
+      <td>643</td>
+      <td>33.65</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Safety Card</td>
+      <td>273</td>
+      <td>14.29</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="51">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>Pertaining to guest security, &gt; 81.11% of host properties contains <code>Some Detectors</code> while 45.32% have <code>Fire Extinguishers</code> in the event of a fire outbreak, &gt; just 33.65% have a <code>First Aid Kit</code> around.</p>
+</section>
+<section id="connectivity" class="level5">
+<h5 class="anchored" data-anchor-id="connectivity">Connectivity</h5>
+<div class="cell" data-execution_count="52">
+<div class="cell-output cell-output-display" data-execution_count="52">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>telecommunication</th>
+      <th>count</th>
+      <th>proportion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>Wireless Internet</td>
+      <td>1816</td>
+      <td>95.03</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Internet</td>
+      <td>1491</td>
+      <td>78.02</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>TV</td>
+      <td>1355</td>
+      <td>70.91</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Cable TV</td>
+      <td>991</td>
+      <td>51.86</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="53">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>On apartment Comms 95.03% of host properties have <code>Wirless internet</code>, while 78.02% also included some sort of <code>internet</code>. 70.91% have a <code>TV</code> installed and just 51.86% have a <code>Cabel TV</code>.</p>
+</section>
+<section id="general-comfortablity" class="level5">
+<h5 class="anchored" data-anchor-id="general-comfortablity">General comfortablity</h5>
+<div class="cell" data-execution_count="54">
+<div class="cell-output cell-output-display" data-execution_count="54">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>general_amenities</th>
+      <th>count</th>
+      <th>proportion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>Heating</td>
+      <td>1799</td>
+      <td>94.14</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Kitchen</td>
+      <td>1752</td>
+      <td>91.68</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Air Conditioning</td>
+      <td>1481</td>
+      <td>77.50</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Essentials</td>
+      <td>1459</td>
+      <td>76.35</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Hot Tub</td>
+      <td>103</td>
+      <td>5.39</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="55">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>Some important apartment amenities which are usually what guest are looking out for when making a reservation. The analysis shows that 94.14% of bookings inclueded a <code>Heating</code> system, while 77.50% had an <code>Air Conditioning</code> system in place. For the <code>Essentials</code> 76.35% had them while just 5.39% have a <code>Hot Tub</code> in them.</p>
+</section>
+<section id="social-activities" class="level5">
+<h5 class="anchored" data-anchor-id="social-activities">Social Activities</h5>
+<div class="cell" data-execution_count="56">
+<div class="cell-output cell-output-display" data-execution_count="56">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>social</th>
+      <th>count</th>
+      <th>proportion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Family/Kid Friendly</td>
+      <td>829</td>
+      <td>43.38</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Suitable for Events</td>
+      <td>87</td>
+      <td>4.55</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="57">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>Just 43.38% of all booking are <code>Family/Kid Friendly</code> while just 4.55% can be used for Events.</p>
+</section>
+<section id="take-away" class="level3">
+<h3 class="anchored" data-anchor-id="take-away">Take Away</h3>
+<p>the number of unique hosts, location. price struc</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Ayomide Akinwande. September, 2022</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github/notebook.com">
+      <i class="bi bi-journal-code" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/akins11">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/Akinwande_ay24?s=09">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.149">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>s_analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html">Host Analysis</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./review.html">Guest Review</a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+<div class="cell" data-execution_count="4">
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\AYOMIDE\AppData\Local\Temp\ipykernel_248\3761325259.py:1: DtypeWarning: Columns (44) have mixed types. Specify dtype option on import or set low_memory=False.
+  rv_df = pd.read_csv("Airbnb-boston_only.csv")</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="72">
+<div class="cell-output cell-output-display" data-execution_count="72">
+<pre><code>array([19454962, 30021361, 31423904, ..., 44353669, 44708580, 45420163],
+      dtype=int64)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>Index(['listing_id', 'date', 'reviewer_id', 'reviewer_name', 'comments',
+       'listing_url', 'scrape_id', 'last_scraped', 'name', 'summary', 'space',
+       'description', 'experiences_offered', 'neighborhood_overview', 'notes',
+       'transit', 'thumbnail_url', 'medium_url', 'picture_url',
+       'xl_picture_url', 'host_id', 'host_url', 'host_name', 'host_since',
+       'host_location', 'host_about', 'host_response_time',
+       'host_response_rate', 'host_acceptance_rate', 'host_is_superhost',
+       'host_thumbnail_url', 'host_picture_url', 'host_neighbourhood',
+       'host_listings_count', 'host_total_listings_count',
+       'host_verifications', 'host_has_profile_pic', 'host_identity_verified',
+       'street', 'neighbourhood', 'neighbourhood_cleansed',
+       'neighbourhood_group_cleansed', 'city', 'state', 'zipcode', 'market',
+       'smart_location', 'country_code', 'country', 'latitude', 'longitude',
+       'is_location_exact', 'property_type', 'room_type', 'accommodates',
+       'bathrooms', 'bedrooms', 'beds', 'bed_type', 'amenities', 'square_feet',
+       'price', 'weekly_price', 'monthly_price', 'security_deposit',
+       'cleaning_fee', 'guests_included', 'extra_people', 'minimum_nights',
+       'maximum_nights', 'calendar_updated', 'has_availability',
+       'availability_30', 'availability_60', 'availability_90',
+       'availability_365', 'calendar_last_scraped', 'number_of_reviews',
+       'first_review', 'last_review', 'review_scores_rating',
+       'requires_license', 'license', 'jurisdiction_names', 'instant_bookable',
+       'cancellation_policy', 'require_guest_profile_picture',
+       'require_guest_phone_verification', 'calculated_host_listings_count',
+       'reviews_per_month', 'review_id'],
+      dtype='object')</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="75">
+<div class="cell-output cell-output-display" data-execution_count="75">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>listing_id</th>
+      <th>date</th>
+      <th>reviewer_id</th>
+      <th>reviewer_name</th>
+      <th>comments</th>
+      <th>listing_url</th>
+      <th>scrape_id</th>
+      <th>last_scraped</th>
+      <th>name</th>
+      <th>summary</th>
+      <th>...</th>
+      <th>requires_license</th>
+      <th>license</th>
+      <th>jurisdiction_names</th>
+      <th>instant_bookable</th>
+      <th>cancellation_policy</th>
+      <th>require_guest_profile_picture</th>
+      <th>require_guest_phone_verification</th>
+      <th>calculated_host_listings_count</th>
+      <th>reviews_per_month</th>
+      <th>review_id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>369880</td>
+      <td>2014-09-13</td>
+      <td>7119417</td>
+      <td>Jorji</td>
+      <td>What a fantastic place to stay during our week...</td>
+      <td>https://www.airbnb.com/rooms/369880</td>
+      <td>20151002231814</td>
+      <td>2015-10-03</td>
+      <td>North End Boston Studio Condo</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>f</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>f</td>
+      <td>strict</td>
+      <td>f</td>
+      <td>f</td>
+      <td>2</td>
+      <td>0.47</td>
+      <td>19454962</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>369880</td>
+      <td>2015-04-16</td>
+      <td>27790573</td>
+      <td>David</td>
+      <td>Great location and apartment . We would defini...</td>
+      <td>https://www.airbnb.com/rooms/369880</td>
+      <td>20151002231814</td>
+      <td>2015-10-03</td>
+      <td>North End Boston Studio Condo</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>f</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>f</td>
+      <td>strict</td>
+      <td>f</td>
+      <td>f</td>
+      <td>2</td>
+      <td>0.47</td>
+      <td>30021361</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>369880</td>
+      <td>2015-05-05</td>
+      <td>4796851</td>
+      <td>Theresa</td>
+      <td>The apartment was neat and clean and accuratel...</td>
+      <td>https://www.airbnb.com/rooms/369880</td>
+      <td>20151002231814</td>
+      <td>2015-10-03</td>
+      <td>North End Boston Studio Condo</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>f</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>f</td>
+      <td>strict</td>
+      <td>f</td>
+      <td>f</td>
+      <td>2</td>
+      <td>0.47</td>
+      <td>31423904</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>369880</td>
+      <td>2015-05-12</td>
+      <td>26705923</td>
+      <td>Neema</td>
+      <td>I absolutely the location of the apartment ......</td>
+      <td>https://www.airbnb.com/rooms/369880</td>
+      <td>20151002231814</td>
+      <td>2015-10-03</td>
+      <td>North End Boston Studio Condo</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>f</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>f</td>
+      <td>strict</td>
+      <td>f</td>
+      <td>f</td>
+      <td>2</td>
+      <td>0.47</td>
+      <td>31933451</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>369880</td>
+      <td>2015-06-07</td>
+      <td>25601068</td>
+      <td>Aine</td>
+      <td>My family and I stayed in Boston in June 2015 ...</td>
+      <td>https://www.airbnb.com/rooms/369880</td>
+      <td>20151002231814</td>
+      <td>2015-10-03</td>
+      <td>North End Boston Studio Condo</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>f</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>f</td>
+      <td>strict</td>
+      <td>f</td>
+      <td>f</td>
+      <td>2</td>
+      <td>0.47</td>
+      <td>34269995</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>43107</th>
+      <td>6350149</td>
+      <td>2015-08-20</td>
+      <td>8581396</td>
+      <td>Atanas</td>
+      <td>was a great host , everything went very easy a...</td>
+      <td>https://www.airbnb.com/rooms/6350149</td>
+      <td>20151002231814</td>
+      <td>2015-10-03</td>
+      <td>Downtown Boston Common</td>
+      <td>We have one bedroom in our 4 bedroom house. Mo...</td>
+      <td>...</td>
+      <td>f</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>f</td>
+      <td>flexible</td>
+      <td>f</td>
+      <td>f</td>
+      <td>2</td>
+      <td>4.74</td>
+      <td>43556545</td>
+    </tr>
+    <tr>
+      <th>43108</th>
+      <td>6350149</td>
+      <td>2015-08-21</td>
+      <td>41736991</td>
+      <td>Edd</td>
+      <td>First time . a last minute place in downtown B...</td>
+      <td>https://www.airbnb.com/rooms/6350149</td>
+      <td>20151002231814</td>
+      <td>2015-10-03</td>
+      <td>Downtown Boston Common</td>
+      <td>We have one bedroom in our 4 bedroom house. Mo...</td>
+      <td>...</td>
+      <td>f</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>f</td>
+      <td>flexible</td>
+      <td>f</td>
+      <td>f</td>
+      <td>2</td>
+      <td>4.74</td>
+      <td>43731210</td>
+    </tr>
+    <tr>
+      <th>43109</th>
+      <td>6350149</td>
+      <td>2015-08-25</td>
+      <td>40994591</td>
+      <td>Michael</td>
+      <td>Overall : Disappointed with expectation from r...</td>
+      <td>https://www.airbnb.com/rooms/6350149</td>
+      <td>20151002231814</td>
+      <td>2015-10-03</td>
+      <td>Downtown Boston Common</td>
+      <td>We have one bedroom in our 4 bedroom house. Mo...</td>
+      <td>...</td>
+      <td>f</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>f</td>
+      <td>flexible</td>
+      <td>f</td>
+      <td>f</td>
+      <td>2</td>
+      <td>4.74</td>
+      <td>44353669</td>
+    </tr>
+    <tr>
+      <th>43110</th>
+      <td>6350149</td>
+      <td>2015-08-28</td>
+      <td>41152147</td>
+      <td>François</td>
+      <td>We did not see . One of his room mate us . Goo...</td>
+      <td>https://www.airbnb.com/rooms/6350149</td>
+      <td>20151002231814</td>
+      <td>2015-10-03</td>
+      <td>Downtown Boston Common</td>
+      <td>We have one bedroom in our 4 bedroom house. Mo...</td>
+      <td>...</td>
+      <td>f</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>f</td>
+      <td>flexible</td>
+      <td>f</td>
+      <td>f</td>
+      <td>2</td>
+      <td>4.74</td>
+      <td>44708580</td>
+    </tr>
+    <tr>
+      <th>43111</th>
+      <td>6350149</td>
+      <td>2015-09-02</td>
+      <td>41808907</td>
+      <td>Paulina</td>
+      <td>My friend &amp; I came to visit Boston for the fir...</td>
+      <td>https://www.airbnb.com/rooms/6350149</td>
+      <td>20151002231814</td>
+      <td>2015-10-03</td>
+      <td>Downtown Boston Common</td>
+      <td>We have one bedroom in our 4 bedroom house. Mo...</td>
+      <td>...</td>
+      <td>f</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>f</td>
+      <td>flexible</td>
+      <td>f</td>
+      <td>f</td>
+      <td>2</td>
+      <td>4.74</td>
+      <td>45420163</td>
+    </tr>
+  </tbody>
+</table>
+<p>43112 rows × 91 columns</p>
+</div>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Ayomide Akinwande. September, 2022</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github/notebook.com">
+      <i class="bi bi-journal-code" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
